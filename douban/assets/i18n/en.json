@@ -1,0 +1,13 @@
+{
+  "tab": {
+    "hot": "In Theaters",
+    "coming": "Coming Soon",
+    "new": "New Movies"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "select": "Select",
+    "dark_mode": "Dark Mode"
+  }
+}

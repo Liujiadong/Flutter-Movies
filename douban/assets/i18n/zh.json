@@ -1,0 +1,13 @@
+{
+  "tab": {
+    "hot": "热映",
+    "coming": "即将上映",
+    "new": "新片榜"
+  },
+  "settings": {
+    "title": "设置",
+    "language": "语言",
+    "select": "选择",
+    "dark_mode": "夜间模式"
+  }
+}
