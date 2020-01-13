@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:douban/model/category_model.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/router_manager.dart';
+import 'package:douban/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:douban/view_model/theme_view_model.dart';
@@ -8,7 +10,6 @@ import 'package:douban/view_model/theme_view_model.dart';
 class DrawerView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final theme = Provider.of<ThemeViewModel>(context);
 
     return SizedBox(
       width: 200,
@@ -16,20 +17,19 @@ class DrawerView extends StatelessWidget {
         child: Column(
           children: <Widget>[
             UserDrawerHeader(),
-            ListTile(
-                title: Text(LocalizationManger.i18n(context, 'tab.hot')),
-                leading: Icon(Icons.movie),
-                onTap: () {
-                  RouterManager.navigateTo(context, RouterType.detail);
-                }),
-            ListTile(
-                title: Text(LocalizationManger.i18n(context, 'tab.new')),
-                leading: Icon(Icons.fiber_new),
-                onTap: () {}),
-            ListTile(
-                title: Text(LocalizationManger.i18n(context, 'tab.coming')),
-                leading: Icon(Icons.sort),
-                onTap: () {}),
+            ...CategoryType.values.map((v){
+
+              final model = CategoryModel(v);
+
+              return ListTile(
+                  title: Text(LocalizationManger.i18n(context,model.title)),
+                  leading: model.icon,
+                  onTap: () {
+                    Provider.of<CategoryViewModel>(context, listen: false).setType(v);
+                    RouterManager.pop(context);
+                  });
+
+            }).toList()
           ],
         ),
       ),
@@ -52,6 +52,7 @@ class UserDrawerHeader extends StatelessWidget {
         color: theme.data.secondaryHeaderColor,
         icon: Icon(Icons.settings),
         onPressed: () {
+          RouterManager.pop(context);
           RouterManager.navigateTo(context, RouterType.settings);
         })
       ],

@@ -47,6 +47,11 @@ class RouterManager {
     });
   }
 
+  static pop(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+
   static navigateTo(BuildContext context, RouterType type) {
     final _path = path(type);
     switch (type) {
