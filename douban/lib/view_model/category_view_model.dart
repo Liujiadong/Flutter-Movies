@@ -11,7 +11,9 @@ class CategoryViewModel extends ChangeNotifier {
 
   String get title => CategoryModel(_type).title;
   Icon get icon => CategoryModel(_type).icon;
-  
+
+  Movies movies;
+
   String get _path {
     switch(_type) {
       case CategoryType.hot:
@@ -26,16 +28,22 @@ class CategoryViewModel extends ChangeNotifier {
   
   setType(CategoryType type) {
     _type = type;
+    fetchData();
     notifyListeners();
   }
 
+  fetchData({start = 0, count = 6}) async {
 
-  Future<Movies> get movies async {
-     return Movies.fromJson(NetworkManager.request(_path, data: {
-       "start": 0,
-       "count": 6,
-     }));
+    final response = await NetworkManager.get(_path, data: {
+      "start": start,
+      "count": count,
+    });
+
+    print(response.statusMessage);
+    movies =  Movies.fromJson(response.data);
+
   }
+
 
 
 

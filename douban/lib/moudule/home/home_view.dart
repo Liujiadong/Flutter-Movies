@@ -5,6 +5,21 @@ import 'package:douban/view_model/category_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
+class HomeView extends StatefulWidget {
+  @override
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends State<HomeView> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
+}
+
+
+
 class HomeView extends StatelessWidget {
 
   @override

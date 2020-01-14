@@ -14,12 +14,12 @@ class NetworkManager {
       receiveTimeout: 3000)
   );
 
-  static Future request(String path, {Map<String, dynamic> data}) async {
+  static Future<Response> get(String path, {Map<String, dynamic> data}) async {
 
     data['apikey'] = Apikey;
     data['city'] = City;
 
-    return _dio.get(path, queryParameters: data).data;
+    return await _dio.get(path, queryParameters: data);
 
   }
 
