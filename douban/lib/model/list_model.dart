@@ -31,18 +31,7 @@ class Comments extends ListModel {
     count = json['count'];
     start = json['start'];
     total = json['total'];
-    subjects = json['comments'];
-  }
-
-}
-
-class Reviews extends ListModel {
-
-  Reviews.fromJson(json) {
-    count = json['count'];
-    start = json['start'];
-    total = json['total'];
-    subjects = json['reviews'];
+    subjects = json['comments'] ?? json['reviews'];
   }
 
 }

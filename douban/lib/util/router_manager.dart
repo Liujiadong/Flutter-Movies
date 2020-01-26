@@ -1,4 +1,6 @@
+import 'package:douban/moudule/detail/comments_view.dart';
 import 'package:douban/moudule/detail/detail_view.dart';
+import 'package:douban/moudule/detail/reviews_view.dart';
 import 'package:douban/moudule/home/home_view.dart';
 import 'package:douban/moudule/settings/settings_view.dart';
 import 'package:fluro/fluro.dart';
@@ -7,29 +9,41 @@ import 'package:flutter/cupertino.dart';
 enum RouterType {
   home,
   detail,
+  comments,
+  reviews,
   settings
 }
+
 
 String path(RouterType type) {
   switch (type) {
     case RouterType.home:
-      return 'home';
+      return '/home';
     case RouterType.detail:
-      return 'detail';
+      return '/detail';
     case RouterType.settings:
-      return 'settings';
+      return '/settings';
+    case RouterType.comments:
+      return '/comments';
+    case RouterType.reviews:
+      return '/reviews';
     default:
-      return 'none';
+      return '/';
   }
 }
 
 Handler handler(RouterType type) {
   return Handler(handlerFunc: (context, params) {
+
     switch (type) {
       case RouterType.home:
         return HomeView();
       case RouterType.detail:
-        return DetailView();
+        return DetailView(params['id']?.first);
+      case RouterType.comments:
+        return CommentsView(params['id']?.first);
+      case RouterType.reviews:
+        return ReviewsView(params['id']?.first);
       case RouterType.settings:
         return SettingsView();
       default:
@@ -38,6 +52,15 @@ Handler handler(RouterType type) {
   });
 }
 
+TransitionType transitionType(RouterType type) {
+  switch (type) {
+
+    case RouterType.comments:
+      return TransitionType.materialFullScreenDialog;
+    default:
+      return TransitionType.material;
+  }
+}
 
 class RouterManager {
   static Router router = Router();
@@ -52,14 +75,16 @@ class RouterManager {
   }
 
 
-  static navigateTo(BuildContext context, RouterType type) {
+  static navigateTo(BuildContext context, RouterType type, {String params = ''}) {
+
     final _path = path(type);
+    final _transition = transitionType(type);
     switch (type) {
       default:
         router.navigateTo(
             context,
-            _path,
-            transition: TransitionType.material);
+            _path + (params.isEmpty ? params : '?$params'),
+            transition: _transition);
     }
 
   }

@@ -1,16 +1,23 @@
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/provider_manager.dart';
 import 'package:douban/util/router_manager.dart';
+import 'package:douban/util/storage_manager.dart';
 import 'package:douban/view_model/theme_view_model.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
-void main() {
+void main() async {
 
-  LocalizationManger.setup();
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await StorageManager.setup();
+  await LocalizationManger.setup();
+
   RouterManager.setup();
 
   runApp(MyApp());
@@ -27,6 +34,7 @@ class MyApp extends StatelessWidget {
       child: Consumer<ThemeViewModel>(
         builder: (context, theme, _) {
           return MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: theme.data,
             initialRoute: path(RouterType.home),
             onGenerateRoute: RouterManager.router.generator,
@@ -34,7 +42,7 @@ class MyApp extends StatelessWidget {
               LocalizationManger.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate
-            ],
+            ]
           );
         },
       )

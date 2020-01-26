@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 
+import 'constant.dart';
+
 class NetworkManager {
 
   static const DefaultData = {};
@@ -14,10 +16,22 @@ class NetworkManager {
       receiveTimeout: 3000)
   );
 
-  static Future<Response> get(String path, {Map<String, dynamic> data}) async {
+  static Future<Response> get(String path, {String extra, Map<String, dynamic> data}) async {
+
+
 
     data['apikey'] = Apikey;
     data['city'] = City;
+
+    switch (path) {
+      case Api.fetchMovie:
+        path += '/${data["id"]}';
+        break;
+      default:
+        break;
+    }
+
+    path += extra ?? '';
 
     return await _dio.get(path, queryParameters: data);
 

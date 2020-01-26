@@ -1,4 +1,5 @@
 import 'package:douban/util/constant.dart';
+import 'package:douban/util/storage_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,9 +9,27 @@ enum ThemeType {
   light
 }
 
+String themeName(ThemeType type) {
+  switch (type) {
+    case ThemeType.dark:
+      return 'dark';
+    case ThemeType.light:
+      return 'light';
+  }
+}
+
+ThemeType themeType(String name) {
+  switch (name) {
+    case 'dark':
+      return ThemeType.dark;
+    case 'light':
+      return ThemeType.light;
+  }
+}
+
 class ThemeViewModel extends ChangeNotifier {
 
-  ThemeType _type = ThemeType.light;
+  ThemeType _type = StorageManager.theme;
 
   ThemeData get data {
     switch (_type) {
@@ -42,11 +61,13 @@ class ThemeViewModel extends ChangeNotifier {
   }
 
   change() {
+
     if (_type == ThemeType.light) {
       _type = ThemeType.dark;
     } else {
       _type = ThemeType.light;
     }
+    StorageManager.theme = _type;
     notifyListeners();
   }
 

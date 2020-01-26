@@ -2,12 +2,35 @@
   "tab": {
     "hot": "热映",
     "coming": "即将上映",
-    "new": "新片榜"
+    "top250": "Top 250"
   },
   "settings": {
     "title": "设置",
     "language": "语言",
     "select": "选择",
     "dark_mode": "夜间模式"
+  },
+  "movie": {
+    "none_rating": "暂无评分",
+    "review": "影评",
+    "summary": "简介",
+    "casts": "演职员",
+    "trailers": "预告 / 花絮 / 剧照",
+    "comments": "短评",
+    "comments_all": "全部",
+    "loading":"加载中..."
+  },
+  "refresh": {
+    "reload":"重新加载",
+    "canRefresh": "松开开始刷新数据",
+    "canLoading": "松手开始加载数据",
+    "idleLoading": "上拉加载",
+    "idleRefresh": "下拉刷新",
+    "loadFailed": "加载失败",
+    "loading": "加载中…",
+    "noMore": "没有更多数据了",
+    "refreshing": "刷新中…",
+    "refreshComplete": "刷新成功",
+    "refreshFailed":"刷新失败"
   }
 }

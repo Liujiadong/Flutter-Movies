@@ -1,4 +1,6 @@
 import 'package:douban/util/localization_manager.dart';
+import 'package:douban/util/router_manager.dart';
+import 'package:douban/util/storage_manager.dart';
 import 'package:douban/view_model/language_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,9 +42,10 @@ class SettingsView extends StatelessWidget {
                             return SimpleDialogOption(
                               child: Text(languageName(v)),
                               onPressed: () {
+                                RouterManager.pop(context);
                                 Provider.of<LanguageViewModel>(context,
                                         listen: false)
-                                    .select(context, v);
+                                    .refresh(context, v);
                               },
                             );
                           }).toList());
@@ -58,7 +61,14 @@ class SettingsView extends StatelessWidget {
               value: theme.isDark,
               onChanged: (_) {
                 Provider.of<ThemeViewModel>(context, listen: false).change();
-              })
+              }),
+          Divider(),
+          SizedBox(
+            height: 100,
+            child: Center(
+                child: Text('v ${StorageManager.packageInfo.version}(${StorageManager.packageInfo.buildNumber})')
+            ),
+          )
         ],
       ),
     );

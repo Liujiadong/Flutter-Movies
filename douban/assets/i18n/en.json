@@ -2,12 +2,35 @@
   "tab": {
     "hot": "In Theaters",
     "coming": "Coming Soon",
-    "new": "New Movies"
+    "top250": "Top 250"
   },
   "settings": {
     "title": "Settings",
     "language": "Language",
     "select": "Select",
     "dark_mode": "Dark Mode"
+  },
+  "movie": {
+    "none_rating": "None",
+    "review": "Review",
+    "summary": "Summary",
+    "casts": "Casts",
+    "trailers": "Trailers / Bloopers / Photos",
+    "comments": "Comments",
+    "comments_all": "All",
+    "loading":"Loading..."
+  },
+  "refresh": {
+    "reload":"Reload",
+    "canRefresh": "Release to refresh",
+    "canLoading": "Release to load more",
+    "idleLoading": "Pull up Load more",
+    "idleRefresh": "Pull down Refresh",
+    "loadFailed": "Load Failed",
+    "loading": "Loading…",
+    "noMore": "No more data",
+    "refreshing": "Refreshing…",
+    "refreshComplete": "Refresh completed",
+    "refreshFailed":"Refresh failed"
   }
 }
