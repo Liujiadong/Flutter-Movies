@@ -10,7 +10,7 @@ class MovieViewModel extends ViewStateViewModel {
 
 
   MovieModel movie;
-  Color coverColor = ConstColor.theme;
+  Color coverColor = ConsColor.theme;
   String title = '';
 
   String id;
@@ -24,7 +24,7 @@ class MovieViewModel extends ViewStateViewModel {
     NetworkManager.get(Api.fetchMovie, data: {'id': id}).then((response) {
       movie = MovieModel.fromJson(response.data);
       title = movie.title;
-      //_fetchColor(movie.smallImage);
+      _fetchColor(movie.smallImage);
       setViewState(ViewState.refreshCompleted);
     }, onError:(error) {
       setViewState(ViewState.refreshError, message: error.message);

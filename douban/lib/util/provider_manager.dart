@@ -13,14 +13,12 @@ class ProviderWidget<T extends ChangeNotifier> extends StatefulWidget {
   final ValueWidgetBuilder<T> builder;
   final T model;
   final Widget child;
-  final Function(T model) onModelReady;
 
   ProviderWidget({
     Key key,
     @required this.builder,
     @required this.model,
     this.child,
-    this.onModelReady,
   }) : super(key: key);
 
   @override
@@ -34,10 +32,11 @@ class _ProviderWidgetState<T extends ChangeNotifier>
   @override
   void initState() {
     model = widget.model;
-    widget.onModelReady?.call(model);
+
     // TODO: implement initState
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {

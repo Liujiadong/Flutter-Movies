@@ -39,7 +39,7 @@ class _MoviePlayerViewState extends State<MoviePlayerView> {
     videoPlayerController = VideoPlayerController.network(url);
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
-      materialProgressColors: ChewieProgressColors(playedColor: ConstColor.theme ,handleColor: ConstColor.theme),
+      materialProgressColors: ChewieProgressColors(playedColor: ConsColor.theme ,handleColor: ConsColor.theme),
       aspectRatio: 3 / 2,
       autoPlay: true,
       looping: true,

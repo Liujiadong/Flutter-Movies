@@ -6,7 +6,7 @@ import 'base_view.dart';
 
 class MovieCardView extends StatelessWidget {
   MovieModel movie;
-  Function(BuildContext) onTap;
+  GestureTapCallback onTap;
   
   MovieCardView({
     this.movie,
@@ -17,9 +17,7 @@ class MovieCardView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
         child: InkWell(
-      onTap: () {
-        onTap(context);
-      },
+      onTap: onTap,
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         child: Row(

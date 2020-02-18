@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:douban/util/localization_manager.dart';
+import 'package:douban/util/router_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -40,6 +43,27 @@ class _MovieWebViewState extends State<MovieWebView> {
       ),
       body: WebView(
         initialUrl: widget.url,
+        navigationDelegate: (request) {
+          final url = Uri.decodeComponent(request.url);
+          final target = 'movie.douban.com/subject/';
+
+
+          if (url.contains(target)) {
+
+            String id = Uri.parse(url).queryParameters['url'].split(target).last.replaceAll('/', '');
+
+            if (id.isNotEmpty) {
+              RouterManager.navigateTo(context, RouterType.detail, params: 'id=$id');
+            }
+
+            return NavigationDecision.prevent;
+          } else {
+            return NavigationDecision.navigate;
+          }
+
+
+
+        },
         onPageStarted: (_) {
           setState(() {
             _isFinish = false;
@@ -53,6 +77,7 @@ class _MovieWebViewState extends State<MovieWebView> {
       )
     );
   }
+
 }
 
 

@@ -35,7 +35,7 @@ class ThemeViewModel extends ChangeNotifier {
     switch (_type) {
       case ThemeType.light:
         return ThemeData.light().copyWith(
-          primaryColor: ConstColor.theme
+          primaryColor: ConsColor.theme
         );
       default:
         return ThemeData.dark();

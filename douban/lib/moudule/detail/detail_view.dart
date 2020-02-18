@@ -150,6 +150,9 @@ class DetailView extends StatelessWidget {
 
 
   Widget get _summaryWidget {
+
+
+    if (_movie.summary.isNotEmpty) {
       return Container(
           padding: EdgeInsets.symmetric(horizontal: 15),
           child: Column(
@@ -161,6 +164,9 @@ class DetailView extends StatelessWidget {
             ],
           )
       );
+    }
+    return SizedBox();
+
    // return
   }
 
@@ -173,67 +179,84 @@ class DetailView extends StatelessWidget {
         })
         .toList();
 
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _titleWighet(LocalizationManger.i18n(_context, 'movie.casts')),
-            MovieStaffView(staffs)
-          ],
-        ));
+    if (staffs.isNotEmpty) {
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _titleWighet(LocalizationManger.i18n(_context, 'movie.casts')),
+              MovieStaffView(staffs)
+            ],
+          ));
+    }
+
+    return SizedBox();
   }
 
 
   Widget get _trailersWidget {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            _titleWighet(LocalizationManger.i18n(_context, 'movie.trailers')),
-            MovieTrailersView(_movie.photos, _movie.videos)
-          ],
-        ));
+
+    if (_movie.photos.isNotEmpty && _movie.videos.isNotEmpty) {
+
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              _titleWighet(LocalizationManger.i18n(_context, 'movie.trailers')),
+              MovieTrailersView(_movie.photos, _movie.videos)
+            ],
+          )
+      );
+    }
+
+    return SizedBox();
   }
 
   Widget get _commentsWidget {
-    return Container(
-        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-        margin: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-        decoration: BoxDecoration(
-            color: Colors.white10, borderRadius: BorderRadius.circular(5)),
-        child: Column(
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                _titleWighet(LocalizationManger.i18n(_context, 'movie.comments')),
-                FlatButton(
-                    padding: EdgeInsets.symmetric(horizontal: 0),
-                    child: Row(
-                      children: <Widget>[
-                        Text('${LocalizationManger.i18n(_context, 'movie.comments_all')} ${_movie.comments_count}',
-                            style: TextStyle(color: Colors.white)),
-                        SizedBox(width: 5),
-                        Icon(Icons.arrow_forward_ios,
-                            size: 15, color: Colors.white)
-                      ],
-                    ),
-                    onPressed: () {
-                      RouterManager.navigateTo(_context, RouterType.comments,
-                          params: 'id=${_movie.id}');
-                    }
-                )
-              ],
-            ),
-            ..._movie.popular_comments
-                .map((v) {
-                  return MovieCommentView(v);
-            }).toList(),
-          ],
-        )
-    );
+
+    if (_movie.popular_comments.isNotEmpty) {
+      return Container(
+          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          margin: EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+          decoration: BoxDecoration(
+              color: Colors.white10, borderRadius: BorderRadius.circular(5)),
+          child: Column(
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  _titleWighet(LocalizationManger.i18n(_context, 'movie.comments')),
+                  FlatButton(
+                      padding: EdgeInsets.symmetric(horizontal: 0),
+                      child: Row(
+                        children: <Widget>[
+                          Text('${LocalizationManger.i18n(_context, 'movie.comments_all')} ${_movie.comments_count}',
+                              style: TextStyle(color: Colors.white)),
+                          SizedBox(width: 5),
+                          Icon(Icons.arrow_forward_ios,
+                              size: 15, color: Colors.white)
+                        ],
+                      ),
+                      onPressed: () {
+                        RouterManager.navigateTo(_context, RouterType.comments,
+                            params: 'id=${_movie.id}');
+                      }
+                  )
+                ],
+              ),
+              ..._movie.popular_comments
+                  .map((v) {
+                return MovieCommentView(v);
+              }).toList(),
+            ],
+          )
+      );
+    }
+
+    return SizedBox();
+
   }
 
   Widget _titleWighet(text) {

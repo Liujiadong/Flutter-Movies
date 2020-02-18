@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 class MovieGridView extends StatelessWidget {
   
   MovieModel movie;
-  Function(BuildContext) onTap;
+  GestureTapCallback onTap;
 
   MovieGridView({
     this.movie,
@@ -19,9 +19,7 @@ class MovieGridView extends StatelessWidget {
 
     return Card(
         child: InkWell(
-            onTap: () {
-              onTap(context);
-            },
+            onTap: onTap,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

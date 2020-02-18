@@ -16,7 +16,6 @@ class CategoryViewModel extends ViewStateViewModel {
 
   Movies movies;
 
-
   int get _count {
     switch(_type) {
       case CategoryType.hot:
@@ -49,6 +48,7 @@ class CategoryViewModel extends ViewStateViewModel {
 
   CategoryViewModel() {
     _type = CategoryType.values.first;
+    onRefresh();
   }
 
   Future<Response> _fetch(int start) async {
