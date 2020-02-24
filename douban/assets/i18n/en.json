@@ -2,7 +2,8 @@
   "tab": {
     "hot": "In Theaters",
     "coming": "Coming Soon",
-    "top250": "Top 250"
+    "top250": "Top 250",
+    "tv": "TV"
   },
   "settings": {
     "title": "Settings",
@@ -21,6 +22,7 @@
     "loading":"Loading..."
   },
   "refresh": {
+    "empty": "No Data",
     "reload":"Reload",
     "canRefresh": "Release to refresh",
     "canLoading": "Release to load more",

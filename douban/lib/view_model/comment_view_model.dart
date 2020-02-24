@@ -24,15 +24,6 @@ class CommentViewModel extends ViewStateViewModel {
      });
 
     return response;
-    final _comments = Comments.fromJson(response.data);
-    
-
-    if (viewState == ViewState.onRefresh ||
-        viewState == ViewState.refreshCompleted) {
-      comments =  _comments;
-    } else {
-      comments.subjects.addAll(_comments.subjects);
-    }
 
   }
 
@@ -43,6 +34,9 @@ class CommentViewModel extends ViewStateViewModel {
       final _comments = Comments.fromJson(response.data);
       comments =  _comments;
       setViewState(ViewState.refreshCompleted);
+      if (comments.total == 0) {
+        setViewState(ViewState.empty);
+      }
     }, onError:(error) {
       setViewState(ViewState.refreshError, message: error.message);
     });

@@ -72,6 +72,18 @@ class CommentsView extends StatelessWidget {
       case ViewState.refreshCompleted:
         refreshController.refreshCompleted();
         break;
+      case ViewState.refreshError:
+        refreshController.refreshFailed();
+        _body = ErrorView(model.message, () {
+          model.onRefresh();
+        });
+        break;
+      case ViewState.empty:
+        refreshController.refreshCompleted();
+        _body = ErrorView(LocalizationManger.i18n(_context, 'refresh.empty'), () {
+          model.onRefresh();
+        });
+        break;
       case ViewState.onLoading:
         refreshController.refreshToIdle();
         break;

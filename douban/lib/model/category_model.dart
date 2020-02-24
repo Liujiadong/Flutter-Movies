@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 enum CategoryType {
   hot,
   coming,
-  top250
+  top250,
+ // tv
 }
 
 class CategoryModel {
@@ -17,6 +18,8 @@ class CategoryModel {
         return 'tab.top250';
       case CategoryType.coming:
         return 'tab.coming';
+//      case CategoryType.tv:
+//        return 'tab.tv';
     }
   }
 
@@ -28,6 +31,8 @@ class CategoryModel {
         return Icon(Icons.fiber_new);
       case CategoryType.top250:
         return Icon(Icons.sort);
+//      case CategoryType.tv:
+//        return Icon(Icons.tv);
     }
   }
 

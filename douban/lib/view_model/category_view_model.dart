@@ -24,6 +24,8 @@ class CategoryViewModel extends ViewStateViewModel {
         return 12;
       case CategoryType.coming:
         return 8;
+      default:
+        return 0;
     }
   }
 
@@ -34,7 +36,9 @@ class CategoryViewModel extends ViewStateViewModel {
       case CategoryType.top250:
         return Api.fetchTop250;
       case CategoryType.coming:
-        return Api.fetchComing;  
+        return Api.fetchComing;
+      default:
+        return '';
     }
   }
 
@@ -68,6 +72,11 @@ class CategoryViewModel extends ViewStateViewModel {
       final _movies = Movies.fromJson(response.data);
       movies =  _movies;
       setViewState(ViewState.refreshCompleted);
+
+      if (movies.total == 0) {
+        setViewState(ViewState.empty);
+      }
+
     }, onError:(error) {
       setViewState(ViewState.refreshError, message: error.message);
     });

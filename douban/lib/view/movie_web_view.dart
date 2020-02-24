@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/router_manager.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,15 +43,14 @@ class _MovieWebViewState extends State<MovieWebView> {
           style: TextStyle(fontSize: 15), maxLines: 3)
       ),
       body: WebView(
-        initialUrl: widget.url,
+        initialUrl: Uri.encodeFull(widget.url),
         navigationDelegate: (request) {
+
           final url = Uri.decodeComponent(request.url);
-          final target = 'movie.douban.com/subject/';
 
+          if (url.contains(ConsString.query_subject)) {
 
-          if (url.contains(target)) {
-
-            String id = Uri.parse(url).queryParameters['url'].split(target).last.replaceAll('/', '');
+            String id = url.split(ConsString.query_subject).last.replaceAll('/', '');
 
             if (id.isNotEmpty) {
               RouterManager.navigateTo(context, RouterType.detail, params: 'id=$id');

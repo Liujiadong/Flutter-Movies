@@ -1,5 +1,4 @@
 import 'package:douban/model/category_model.dart';
-import 'package:douban/model/movie_model.dart';
 import 'package:douban/moudule/home/drawer_view.dart';
 import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
@@ -66,8 +65,7 @@ class _HomeViewState extends State<HomeView> {
                 return AlertDialog(
                   content: TextField(
                     onSubmitted: (text) {
-                      final url = 'https://www.douban.com/search?cat=1002&q=$text';
-                      _openWeb(text, url);
+                      _openWeb(text, ConsString.query_movie + text);
                     },
                   ),
                 );
@@ -78,8 +76,9 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget get _drawer {
-    return DrawerView(onTap: () {
-      _openWeb(ConsString.name, ConsString.mail);
+
+    return DrawerView(onTap: (title, url) {
+      _openWeb(title, url);
     }, onPressed: () {
       _navigateTo(RouterType.settings, canPop: true);
     });

@@ -10,7 +10,7 @@ import 'package:douban/view_model/theme_view_model.dart';
 
 class DrawerView extends StatelessWidget {
 
-  GestureTapCallback onTap;
+  void Function(String title, String url) onTap;
   VoidCallback onPressed;
 
   DrawerView({this.onTap, this.onPressed});
@@ -30,9 +30,9 @@ class DrawerView extends StatelessWidget {
                   title: Text(LocalizationManger.i18n(context, model.title)),
                   leading: model.icon,
                   onTap: () {
-                    Provider.of<CategoryViewModel>(context, listen: false)
-                        .type = v;
-                    RouterManager.pop(context);
+                      Provider.of<CategoryViewModel>(context, listen: false)
+                          .type = v;
+                      RouterManager.pop(context);
                   });
             }).toList()
           ],
@@ -44,7 +44,7 @@ class DrawerView extends StatelessWidget {
 
 class UserDrawerHeader extends StatelessWidget {
 
-  GestureTapCallback onTap;
+  void Function(String title, String url) onTap;
   VoidCallback onPressed;
 
   UserDrawerHeader(this.onTap, this.onPressed);
@@ -58,10 +58,12 @@ class UserDrawerHeader extends StatelessWidget {
       accountName: Text(ConsString.name),
       accountEmail: InkWell(
         child: Text(ConsString.mail),
-        onTap: onTap,
+        onTap: () {
+          onTap(ConsString.name, ConsString.mail);
+        },
       ),
       currentAccountPicture:
-          CachedNetworkImage(imageUrl: 'http://dwz.date/ep8'),
+          CachedNetworkImage(imageUrl: ConsString.avatar),
       otherAccountsPictures: <Widget>[
         IconButton(
             color: theme.data.secondaryHeaderColor,

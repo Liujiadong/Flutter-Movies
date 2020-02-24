@@ -15,4 +15,13 @@ class Api {
 class ConsString {
   static const name = 'ZzzM';
   static const mail = 'https://github.com/$name';
+
+  static const avatar = 'http://dwz.date/ep8';
+
+
+  static const douban_tv = 'https://m.douban.com/tv/';
+
+  static const query_movie = 'https://m.douban.com/search/?type=movie&query=';
+  static const query_subject = 'https://m.douban.com/movie/subject/';
+
 }

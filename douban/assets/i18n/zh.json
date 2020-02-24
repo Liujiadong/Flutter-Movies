@@ -2,7 +2,8 @@
   "tab": {
     "hot": "热映",
     "coming": "即将上映",
-    "top250": "Top 250"
+    "top250": "Top 250",
+    "tv": "电视剧"
   },
   "settings": {
     "title": "设置",
@@ -21,6 +22,7 @@
     "loading":"加载中..."
   },
   "refresh": {
+    "empty": "暂无数据",
     "reload":"重新加载",
     "canRefresh": "松开开始刷新数据",
     "canLoading": "松手开始加载数据",
