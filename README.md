@@ -4,16 +4,16 @@
 - 运行环境：iOS 8.0 或以上（暂未适配 Android）
 
 ## Light Mode Preview
-![](previews/light1.png)
-![](previews/light2.png)
-![](previews/light3.png)
-![](previews/light4.png)
+<img src="previews/light1.png"  height=650 width=300>
+<img src="previews/light2.png"  height=650 width=300>
+<img src="previews/light3.png"  height=650 width=300>
+<img src="previews/light4.png"  height=650 width=300>
 
 ## Dark Mode Preview
-![](previews/dark1.png)
-![](previews/dark2.png)
-![](previews/dark3.png)
-![](previews/dark4.png)
+<img src="previews/dark1.png"  height=650 width=300>
+<img src="previews/dark2.png"  height=650 width=300>
+<img src="previews/dark3.png"  height=650 width=300>
+<img src="previews/dark4.png"  height=650 width=300>
 
 ## Dependencies
 - flutter_i18n: ^0.8.3
