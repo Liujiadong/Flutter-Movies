@@ -1,3 +1,4 @@
+import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/router_manager.dart';
 import 'package:douban/util/storage_manager.dart';
@@ -16,8 +17,7 @@ class SettingsView extends StatelessWidget {
       appBar: AppBar(
           title: Consumer<LanguageViewModel>(builder: (context, _, child) {
         return Text(LocalizationManger.i18n(context, 'settings.title'));
-      })
-      ),
+      })),
       body: ListView(
         children: <Widget>[
           ListTile(
@@ -25,50 +25,64 @@ class SettingsView extends StatelessWidget {
                 return Text(
                     LocalizationManger.i18n(context, 'settings.language'));
               }),
-              leading: Icon(Icons.language),
-              trailing: Icon(Icons.arrow_forward_ios),
+              trailing: Icon(Icons.chevron_right),
               onTap: () {
                 showDialog(
                     context: context,
                     builder: (_) {
                       return SimpleDialog(
-                          title: Consumer<LanguageViewModel>(
-                              builder: (context, _, child) {
-                            return Text(LocalizationManger.i18n(
-                                context, 'settings.select'));
-                          }),
-                          children:
-                              Language.values.map<SimpleDialogOption>((v) {
-                            return SimpleDialogOption(
-                              child: Text(languageName(v)),
-                              onPressed: () {
-                                RouterManager.pop(context);
-                                Provider.of<LanguageViewModel>(context,
-                                        listen: false)
-                                    .refresh(context, v);
-                              },
-                            );
-                          }).toList());
+                          children: Language.values.map<Widget>((v) {
+                        return RadioListTile(
+                          value: v,
+                          groupValue: StorageManager.language,
+                          activeColor: ConsColor.theme,
+                          title: Text(languageName(v)),
+                          onChanged: (_) {
+                            RouterManager.pop(context);
+                            Provider.of<LanguageViewModel>(context,
+                                    listen: false)
+                                .refresh(context, v);
+                          },
+                        );
+                      }).toList());
                     });
               }),
           Divider(),
-          SwitchListTile(
-              secondary: theme.icon,
+          ListTile(
               title: Consumer<LanguageViewModel>(builder: (context, _, child) {
-                return Text(
-                    LocalizationManger.i18n(context, 'settings.dark_mode'));
+                return Text(LocalizationManger.i18n(context, 'settings.theme'));
               }),
-              value: theme.isDark,
-              onChanged: (_) {
-                Provider.of<ThemeViewModel>(context, listen: false).change();
+              trailing: Icon(Icons.chevron_right),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (_) {
+                      return SimpleDialog(
+                          children: ThemeType.values.map<Widget>((v) {
+                        return RadioListTile(
+                          value: v,
+                          groupValue: StorageManager.theme,
+                          activeColor: ConsColor.theme,
+                          title: Text(
+                              LocalizationManger.i18n(context, themeKey(v))),
+                          onChanged: (_) {
+                            RouterManager.pop(context);
+                            Provider.of<ThemeViewModel>(context, listen: false)
+                                .change(v);
+                          },
+                        );
+                      }).toList());
+                    });
               }),
           Divider(),
-          SizedBox(
-            height: 100,
-            child: Center(
-                child: Text('v ${StorageManager.packageInfo.version}(${StorageManager.packageInfo.buildNumber})')
-            ),
-          )
+          ListTile(
+              title: Consumer<LanguageViewModel>(builder: (context, _, child) {
+                return Text(
+                    LocalizationManger.i18n(context, 'settings.version'));
+              }),
+              trailing: Text(
+                  'v ${StorageManager.packageInfo.version}(${StorageManager.packageInfo.buildNumber})')
+          ),
         ],
       ),
     );

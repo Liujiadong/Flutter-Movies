@@ -53,6 +53,7 @@ class UserDrawerHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeViewModel>(context);
+    final themeData = theme.data;
 
     return UserAccountsDrawerHeader(
       accountName: Text(ConsString.name),
@@ -66,7 +67,7 @@ class UserDrawerHeader extends StatelessWidget {
           CachedNetworkImage(imageUrl: ConsString.avatar),
       otherAccountsPictures: <Widget>[
         IconButton(
-            color: theme.data.secondaryHeaderColor,
+            color: themeData.secondaryHeaderColor,
             icon: Icon(Icons.settings),
             onPressed: onPressed)
       ],

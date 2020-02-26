@@ -54,6 +54,8 @@ class _HomeViewState extends State<HomeView> {
 
 
   Widget get _searchDialog {
+
+
     return SizedBox(
       width: 50,
       child: InkWell(
@@ -62,6 +64,7 @@ class _HomeViewState extends State<HomeView> {
           showDialog(
               context: context,
               builder: (_) {
+
                 return AlertDialog(
                   content: TextField(
                     onSubmitted: (text) {

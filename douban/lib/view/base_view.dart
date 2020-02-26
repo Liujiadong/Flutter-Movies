@@ -16,6 +16,7 @@ class ErrorView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Provider.of<ThemeViewModel>(context);
+    final themeData = theme.data;
 
     return Center(
       child: Column(
@@ -24,8 +25,8 @@ class ErrorView extends StatelessWidget {
           Text(message),
           SizedBox(height: 20),
           RaisedButton(
-            color: theme.data.primaryColor,
-            child: Text(LocalizationManger.i18n(context, 'refresh.reload'), style: TextStyle(color: theme.data.secondaryHeaderColor)),
+            color: themeData.primaryColor,
+            child: Text(LocalizationManger.i18n(context, 'refresh.reload'), style: TextStyle(color: themeData.secondaryHeaderColor)),
             onPressed: onPressed,
           )
         ],

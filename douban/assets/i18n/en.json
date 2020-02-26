@@ -8,8 +8,11 @@
   "settings": {
     "title": "Settings",
     "language": "Language",
-    "select": "Select",
-    "dark_mode": "Dark Mode"
+    "version": "Version",
+    "theme": "Theme",
+    "theme_light": "Light",
+    "theme_dark": "Dark",
+    "theme_system": "System"
   },
   "movie": {
     "none_rating": "None",

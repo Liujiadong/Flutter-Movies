@@ -26,7 +26,9 @@ class DetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final theme = Provider.of<ThemeViewModel>(context);
+    final theme = Provider.of<ThemeViewModel>(context, listen: false);
+    final themeData = theme.data;
+    final isDark = theme.isDark;
     _context = context;
 
     return ProviderWidget<MovieViewModel>(
@@ -35,7 +37,7 @@ class DetailView extends StatelessWidget {
         return Scaffold(
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: theme.isDark ?  theme.data.primaryColor :model.coverColor,
+            backgroundColor: isDark ?  themeData.primaryColor :model.coverColor,
             title: Text(model.title),
             centerTitle: true,
             actions: <Widget>[
@@ -50,7 +52,7 @@ class DetailView extends StatelessWidget {
             ],
           ),
           body: _body(model),
-          backgroundColor: theme.isDark ?  theme.data.primaryColor :model.coverColor,
+          backgroundColor: isDark ?  themeData.primaryColor :model.coverColor,
         );
       },
     );

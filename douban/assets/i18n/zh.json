@@ -8,8 +8,11 @@
   "settings": {
     "title": "设置",
     "language": "语言",
-    "select": "选择",
-    "dark_mode": "夜间模式"
+    "version": "版本",
+    "theme": "主题",
+    "theme_light": "日间",
+    "theme_dark": "夜间",
+    "theme_system": "系统"
   },
   "movie": {
     "none_rating": "暂无评分",

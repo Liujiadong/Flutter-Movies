@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 
 void main() async {
@@ -20,34 +20,39 @@ void main() async {
 
   RouterManager.setup();
 
-  runApp(MyApp());
+  runApp(TheApp());
 }
 
-class MyApp extends StatelessWidget {
+class TheApp extends StatefulWidget {
+  @override
+  _TheAppState createState() => _TheAppState();
+}
 
-  // This widget is the root of your application.
+class _TheAppState extends State<TheApp> with WidgetsBindingObserver {
+
   @override
   Widget build(BuildContext context) {
 
     return MultiProvider(
-      providers: providers,
-      child: Consumer<ThemeViewModel>(
-        builder: (context, theme, _) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: theme.data,
-            initialRoute: path(RouterType.home),
-            onGenerateRoute: RouterManager.router.generator,
-            localizationsDelegates: [
-              LocalizationManger.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate
-            ]
-          );
-        },
-      )
+        providers: providers,
+        child: Consumer<ThemeViewModel>(
+          builder: (context, theme, _) {
+            return MaterialApp(
+                debugShowCheckedModeBanner: false,
+                theme: theme.data,
+                initialRoute: path(RouterType.home),
+                onGenerateRoute: RouterManager.router.generator,
+                localizationsDelegates: [
+                  LocalizationManger.delegate,
+                  GlobalMaterialLocalizations.delegate,
+                  GlobalWidgetsLocalizations.delegate
+                ]
+            );
+          },
+        )
     );
-
   }
 }
+
+
 
