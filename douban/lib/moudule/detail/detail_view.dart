@@ -27,13 +27,14 @@ class DetailView extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final theme = Provider.of<ThemeViewModel>(context, listen: false);
-    final themeData = theme.data;
-    final isDark = theme.isDark;
+    final themeData = theme.data(context);
+    final isDark = theme.isDark(context);
     _context = context;
 
     return ProviderWidget<MovieViewModel>(
       model: MovieViewModel(id),
       builder: (context, model, _) {
+
         return Scaffold(
           appBar: AppBar(
             elevation: 0,

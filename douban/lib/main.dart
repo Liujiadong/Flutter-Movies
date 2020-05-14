@@ -36,10 +36,12 @@ class _TheAppState extends State<TheApp> with WidgetsBindingObserver {
     return MultiProvider(
         providers: providers,
         child: Consumer<ThemeViewModel>(
-          builder: (context, theme, _) {
+          builder: (context, _, widget) {
             return MaterialApp(
                 debugShowCheckedModeBanner: false,
-                theme: theme.data,
+                theme: lightData,
+                darkTheme: darkData,
+                themeMode: StorageManager.themeMode,
                 initialRoute: path(RouterType.home),
                 onGenerateRoute: RouterManager.router.generator,
                 localizationsDelegates: [

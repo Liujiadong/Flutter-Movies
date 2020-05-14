@@ -2,69 +2,58 @@ import 'package:douban/util/constant.dart';
 import 'package:douban/util/storage_manager.dart';
 import 'package:flutter/material.dart';
 
-enum ThemeType {
-  light,
-  dark,
- // system
-}
 
-String themeName(ThemeType type) {
-  switch (type) {
-    case ThemeType.dark:
+String themeName(ThemeMode mode) {
+  switch (mode) {
+    case ThemeMode.dark:
       return 'dark';
-    case ThemeType.light:
+    case ThemeMode.light:
       return 'light';
     default:
       return 'system';
   }
 }
 
-String themeKey(ThemeType type) {
-  switch (type) {
-    case ThemeType.dark:
+String themeKey(ThemeMode mode) {
+  switch (mode) {
+    case ThemeMode.dark:
       return 'settings.theme_dark';
-    case ThemeType.light:
+    case ThemeMode.light:
       return 'settings.theme_light';
     default:
       return 'settings.theme_system';
   }
 }
 
-ThemeType themeType(String name) {
+ThemeMode fetchThemeMode(String name) {
   switch (name) {
     case 'dark':
-      return ThemeType.dark;
+      return ThemeMode.dark;
     case 'light':
-      return ThemeType.light;
+      return ThemeMode.light;
+    default:
+      return ThemeMode.system;
   }
 }
 
+ThemeData lightData = ThemeData.light().copyWith(
+    primaryColor: ConsColor.theme);
+ThemeData darkData = ThemeData.dark();
+
+
+
 class ThemeViewModel extends ChangeNotifier {
 
-  ThemeType _type = StorageManager.theme;
-
-
-  ThemeData get data {
-    switch (_type) {
-      case ThemeType.light:
-        return ThemeData.light().copyWith(
-          primaryColor: ConsColor.theme
-        );
-      default:
-        return ThemeData.dark();
-    }
+  ThemeData data(BuildContext context) {
+    return isDark(context)? darkData: lightData;
   }
 
-
-  bool get isDark {
-    return _type == ThemeType.dark;
+  bool isDark(BuildContext context) {
+    return Theme.of(context).brightness == Brightness.dark;
   }
 
-
-  change(ThemeType type) {
-
-    _type = type;
-    StorageManager.theme = _type;
+  change(ThemeMode mode) {
+    StorageManager.themeMode = mode;
     notifyListeners();
   }
 

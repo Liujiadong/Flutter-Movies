@@ -58,10 +58,10 @@ class SettingsView extends StatelessWidget {
                     context: context,
                     builder: (_) {
                       return SimpleDialog(
-                          children: ThemeType.values.map<Widget>((v) {
+                          children: ThemeMode.values.map<Widget>((v) {
                         return RadioListTile(
                           value: v,
-                          groupValue: StorageManager.theme,
+                          groupValue: StorageManager.themeMode,
                           activeColor: ConsColor.theme,
                           title: Text(
                               LocalizationManger.i18n(context, themeKey(v))),

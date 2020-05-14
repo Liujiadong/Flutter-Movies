@@ -51,7 +51,7 @@ class MovieCommentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    _isDark = Provider.of<ThemeViewModel>(context, listen: false).isDark;
+    _isDark = Provider.of<ThemeViewModel>(context, listen: false).isDark(context);
 
 
     return Container(

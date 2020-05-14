@@ -1,11 +1,12 @@
 
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/view_model/theme_view_model.dart';
+import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageKey {
-  static const theme = 'kTheme';
+  static const themeMode = 'kThemeMode';
   static const language = 'kLanguage';
 }
 
@@ -26,11 +27,11 @@ class StorageManager {
   static get language => languageType(prefs.getString(StorageKey.language) ?? languageFile(Language.en));
 
 
-  static set theme(ThemeType theme) {
-    prefs.setString(StorageKey.theme, themeName(theme));
+  static set themeMode(ThemeMode mode) {
+    prefs.setString(StorageKey.themeMode, themeName(mode));
   }
 
-  static get theme => themeType(prefs.getString(StorageKey.theme) ?? themeName(ThemeType.light));
+  static get themeMode => fetchThemeMode(prefs.getString(StorageKey.themeMode));
 
 
 }
