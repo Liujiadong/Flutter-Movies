@@ -1,5 +1,5 @@
 # Flutter Movies
-这是一个基于豆瓣电影Api 使用 Flutter 开发的App，支持夜间模式、本地化。
+一款基于豆瓣电影 Api 使用 Flutter 开发的移动端应用。
 - Flutter: Channel stable, v1.17.1
 - 运行环境：iOS 8.0 或以上（暂未适配 Android）
 
