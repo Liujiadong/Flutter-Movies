@@ -11,6 +11,7 @@ import 'package:douban/view_model/theme_view_model.dart';
 class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     final theme = Provider.of<ThemeViewModel>(context);
 
     return Scaffold(
