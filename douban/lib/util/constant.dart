@@ -16,8 +16,6 @@ class ConsString {
   static const name = 'ZzzM';
   static const mail = 'https://github.com/$name';
 
-  static const avatar = 'http://dwz.date/ep8';
-
 
   static const douban_tv = 'https://m.douban.com/tv/';
 

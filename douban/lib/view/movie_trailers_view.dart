@@ -65,6 +65,7 @@ class MovieTrailersView extends StatelessWidget {
       return Container(
         child: GestureDetector(
           onTap: () {
+            print(v.resource_url);
             MoviePlayerView.open(_context, v.resource_url);
           },
           child: Stack(
