@@ -35,8 +35,10 @@ dependencies:
   shared_preferences: ^0.5.6
   palette_generator: ^0.2.0
   photo_view: ^0.9.1
-  video_player: ^0.10.5+2
-  chewie: ^0.9.8+1
+  video_player: ^0.10.11+2
+  chewie: ^0.9.10
+  share: ^0.6.4+3
+
 
 dev_dependencies:
   flutter_test:

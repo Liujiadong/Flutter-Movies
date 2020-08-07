@@ -68,10 +68,7 @@ class MovieStaffView extends StatelessWidget {
           onTap: () {
             MovieGalleryView.open(_context, galleryItems, index);
           },
-          child: Hero(
-            tag: staff.id,
-            child: CachedNetworkImage(imageUrl: staff.largeImage, fit: BoxFit.cover),
-          ),
+          child: CachedNetworkImage(imageUrl: staff.largeImage, fit: BoxFit.cover)
         ),
       );
   }

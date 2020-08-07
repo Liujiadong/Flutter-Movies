@@ -24,7 +24,7 @@ class StorageManager {
     prefs.setString(StorageKey.language, languageFile(language));
   }
 
-  static get language => languageType(prefs.getString(StorageKey.language) ?? languageFile(Language.en));
+  static get language => languageType(prefs.getString(StorageKey.language) ?? languageFile(Language.zh));
 
 
   static set themeMode(ThemeMode mode) {

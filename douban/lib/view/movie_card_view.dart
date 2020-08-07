@@ -1,6 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:douban/model/movie_model.dart';
+import 'package:douban/util/localization_manager.dart';
+import 'package:douban/view_model/language_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'base_view.dart';
 
@@ -13,8 +16,14 @@ class MovieCardView extends StatelessWidget {
     this.onTap
   });
 
+
+  BuildContext _context;
+
   @override
   Widget build(BuildContext context) {
+
+    _context = context;
+
     return Card(
         child: InkWell(
       onTap: onTap,
@@ -99,13 +108,17 @@ class MovieCardView extends StatelessWidget {
             halfCount: movie.rating.halfCount,
             halfIcon:
                 Icon(Icons.star_half, size: 16, color: Colors.amberAccent)),
-        Text(
-          "${movie.collect_count}人看过",
-          style: TextStyle(
-            fontSize: 9,
-          ),
-        )
-      ], mainAxisAlignment: MainAxisAlignment.spaceEvenly),
+        Consumer<LanguageViewModel>(builder: (context, _, child) {
+          return Text(
+            "${movie.collect_count}${LocalizationManger.i18n(_context, 'movie.seen')}",
+            style: TextStyle(
+              fontSize: 9,
+            ),
+          );
+        })
+
+      ],
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly),
     );
   }
 }

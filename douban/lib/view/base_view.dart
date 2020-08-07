@@ -22,11 +22,11 @@ class ErrorView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(message),
+          Text(message, style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
           SizedBox(height: 20),
           RaisedButton(
             color: themeData.primaryColor,
-            child: Text(LocalizationManger.i18n(context, 'refresh.reload'), style: TextStyle(color: themeData.secondaryHeaderColor)),
+            child: Text(LocalizationManger.i18n(context, 'refresh.reload'), style: TextStyle(color: Colors.white)),
             onPressed: onPressed,
           )
         ],
@@ -105,14 +105,17 @@ class RatingDesView extends StatelessWidget {
 
   RatingDesView(this.movie);
 
+  BuildContext _context;
 
-  Widget noneWidget = Text(
-      '尚未上映',
-      style: TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-          color: Colors.white)
-  );
+  Widget get noneWidget {
+    return Text(
+        LocalizationManger.i18n(_context, 'movie.unreleased'),
+        style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: Colors.white)
+    );
+  }
 
   Widget get ratingWidget {
 
@@ -158,7 +161,7 @@ class RatingDesView extends StatelessWidget {
     );
 
     sections.add(
-        Text("${movie.ratings_count}人评分",
+        Text('${movie.ratings_count}${LocalizationManger.i18n(_context, 'movie.scored')}',
             style: TextStyle(
                 fontSize: 10,
                 color: Colors.white))
@@ -171,8 +174,11 @@ class RatingDesView extends StatelessWidget {
     );
   }
 
+
+
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return movie.rating.average == 0 ? noneWidget: ratingWidget;
   }
 }

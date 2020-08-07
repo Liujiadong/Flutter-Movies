@@ -15,8 +15,12 @@
     "theme_system": "System"
   },
   "movie": {
+    "seen": " Seen",
+    "scored": " Scored",
     "none_rating": "None",
+    "unreleased": "Unreleased",
     "review": "Review",
+    "share": "Share",
     "summary": "Summary",
     "casts": "Casts",
     "trailers": "Trailers / Bloopers / Photos",

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:douban/util/router_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
+import 'package:share/share.dart';
 
 class MovieGalleryView extends StatefulWidget {
 
@@ -51,7 +53,9 @@ class _MovieGalleryViewState extends State<MovieGalleryView> {
                 PhotoViewGallery.builder(
                   scrollPhysics: BouncingScrollPhysics(),
                     itemCount: widget.galleryItems.length,
-                    loadingChild: CupertinoActivityIndicator(),
+                    loadingBuilder: (context, _){
+                      return  CupertinoActivityIndicator();
+                    },
                     loadFailedChild: CupertinoActivityIndicator(),
                     pageController: widget.pageController,
                     onPageChanged: onPageChanged,
@@ -60,10 +64,20 @@ class _MovieGalleryViewState extends State<MovieGalleryView> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
-                        FlatButton(
-                          child: Icon(Icons.close, color: Colors.white, size: 30),
-                          padding: EdgeInsets.only(right: 30, bottom: 30),
-                          onPressed: () => Navigator.pop(context),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            FlatButton(
+                              child: Icon(Icons.close, color: Colors.white, size: 30),
+                              onPressed: () => RouterManager.pop(context),
+                            ),
+                            FlatButton(
+                              child: Icon(Icons.file_download, color: Colors.white, size: 30),
+                              onPressed: () {
+
+                              },
+                            )
+                          ],
                         ),
                         Text(
                           "${currentIndex + 1} / ${widget.galleryItems.length}",
@@ -90,12 +104,12 @@ class _MovieGalleryViewState extends State<MovieGalleryView> {
   PhotoViewGalleryPageOptions _buildItem(
       BuildContext context, int index) {
     final galleryItem = widget.galleryItems[index];
+
     return PhotoViewGalleryPageOptions(
       imageProvider: galleryItem.provider,
       initialScale: PhotoViewComputedScale.contained,
       minScale: PhotoViewComputedScale.contained * (0.5 + index / 10),
       maxScale: PhotoViewComputedScale.covered * 1.1,
-      heroAttributes: PhotoViewHeroAttributes(tag: galleryItem.id),
     );
   }
 

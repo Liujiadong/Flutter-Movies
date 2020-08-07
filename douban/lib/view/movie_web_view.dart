@@ -1,10 +1,10 @@
-import 'dart:math';
 
 import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/router_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
@@ -38,9 +38,18 @@ class _MovieWebViewState extends State<MovieWebView> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      appBar: AppBar(title: Text(
-          _isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading'),
-          style: TextStyle(fontSize: 15), maxLines: 3)
+      appBar: AppBar(
+          title: Text(_isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading'),
+              style: TextStyle(fontSize: 15),
+              maxLines: 3),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.share),
+              onPressed: (){
+                Share.share(widget.url);
+              },
+            )
+          ],
       ),
       body: WebView(
         initialUrl: Uri.encodeFull(widget.url),

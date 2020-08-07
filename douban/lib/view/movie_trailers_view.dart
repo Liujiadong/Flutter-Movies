@@ -49,10 +49,7 @@ class MovieTrailersView extends StatelessWidget {
           onTap: () {
             MovieGalleryView.open(_context, galleryItems, index);
           },
-          child: Hero(
-            tag: v.id,
-            child: CachedNetworkImage(imageUrl: v.image, fit: BoxFit.cover),
-          ),
+          child: CachedNetworkImage(imageUrl: v.image, fit: BoxFit.cover)
         ),
       );
     }).toList();
@@ -65,7 +62,6 @@ class MovieTrailersView extends StatelessWidget {
       return Container(
         child: GestureDetector(
           onTap: () {
-            print(v.resource_url);
             MoviePlayerView.open(_context, v.resource_url);
           },
           child: Stack(

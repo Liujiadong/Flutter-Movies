@@ -14,6 +14,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:douban/view_model/theme_view_model.dart';
+import 'package:share/share.dart';
 
 class DetailView extends StatelessWidget {
 
@@ -42,19 +43,39 @@ class DetailView extends StatelessWidget {
             title: Text(model.title),
             centerTitle: true,
             actions: <Widget>[
-              FlatButton(
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  child: Text(LocalizationManger.i18n(context, 'movie.review'),
-                      style: TextStyle(color: Colors.white)),
-                  onPressed: () {
-                    RouterManager.navigateTo(_context, RouterType.reviews,
-                        params: 'id=${_movie.id}');
-                  })
+              _popMenu
             ],
           ),
           body: _body(model),
           backgroundColor: isDark ?  themeData.primaryColor :model.coverColor,
         );
+      },
+    );
+  }
+
+  Widget get _popMenu {
+    return PopupMenuButton<int>(
+      itemBuilder: (_) {
+        return [
+          PopupMenuItem<int>(
+              value: 1,
+              child: Center(child: Text(LocalizationManger.i18n(_context, 'movie.review')))),
+          PopupMenuItem<int>(
+              value: 2,
+              child: Center(child: Text(LocalizationManger.i18n(_context, 'movie.share'))))
+        ];
+      },
+      onSelected: (value) {
+
+        switch (value) {
+          case 1:
+            RouterManager.navigateTo(_context, RouterType.reviews, params: 'id=${_movie.id}');
+            break;
+          case 2:
+            Share.share(_movie.share_url);
+            break;
+        }
+
       },
     );
   }

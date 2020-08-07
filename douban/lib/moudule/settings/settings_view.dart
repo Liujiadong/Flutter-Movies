@@ -12,8 +12,6 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    final theme = Provider.of<ThemeViewModel>(context);
-
     return Scaffold(
       appBar: AppBar(
           title: Consumer<LanguageViewModel>(builder: (context, _, child) {

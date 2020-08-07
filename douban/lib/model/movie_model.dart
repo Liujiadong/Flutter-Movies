@@ -24,7 +24,7 @@ class MovieModel {
   String alt;
   String id;
 
-  String mobile_url;
+  String share_url;
 
 
   List popular_comments;
@@ -68,7 +68,7 @@ class MovieModel {
     this.images,
     this.alt,
     this.id,
-    this.mobile_url,
+    this.share_url,
   });
 
   MovieModel.fromJson(json) {
@@ -86,7 +86,7 @@ class MovieModel {
     images = json['images'];
     alt = json['alt'];
     id = json['id'];
-    mobile_url = json['mobile_url'];
+    share_url = json['share_url'];
     summary = json['summary'];
 
     if (json['photos'] != null) {

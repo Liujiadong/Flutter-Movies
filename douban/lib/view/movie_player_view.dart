@@ -1,19 +1,15 @@
+
 import 'package:chewie/chewie.dart';
-import 'package:douban/util/constant.dart';
 import 'package:douban/util/router_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
 class MoviePlayerView extends StatefulWidget {
-
   static open(BuildContext context, String url) {
-    Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) {
-               return MoviePlayerView(url);
-            })
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return MoviePlayerView(url);
+    }));
   }
 
   String url;
@@ -25,26 +21,19 @@ class MoviePlayerView extends StatefulWidget {
 }
 
 class _MoviePlayerViewState extends State<MoviePlayerView> {
-
-  VideoPlayerController videoPlayerController;
-  ChewieController chewieController;
-
-
-  get url {
-    return widget.url.replaceAll('http', 'https');
-  }
+  VideoPlayerController _videoPlayerController;
+  ChewieController _chewieController;
 
   @override
   void initState() {
-    videoPlayerController = VideoPlayerController.network(url);
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      materialProgressColors: ChewieProgressColors(playedColor: ConsColor.theme ,handleColor: ConsColor.theme),
-      aspectRatio: 3 / 2,
-      autoPlay: true,
-      looping: true,
-    );
     super.initState();
+
+    _videoPlayerController = VideoPlayerController.network(widget.url);
+    _chewieController = ChewieController(
+        videoPlayerController: _videoPlayerController,
+        aspectRatio: 3 / 2,
+        autoPlay: true,
+        looping: true);
   }
 
   @override
@@ -52,27 +41,40 @@ class _MoviePlayerViewState extends State<MoviePlayerView> {
     return Scaffold(
         backgroundColor: Colors.black,
         body: SafeArea(
-            child: Stack(
-              alignment: Alignment.topLeft,
+            child: Column(
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Chewie(
-                    controller: chewieController
-                ),
-                FlatButton(
-                  child: Icon(Icons.close, color: Colors.white, size: 30),
-                  padding: EdgeInsets.only(right: 30, bottom: 30),
-                  onPressed: () => RouterManager.pop(context),
-                )
+                    FlatButton(
+                      child: Icon(Icons.close, color: Colors.white, size: 30),
+                      onPressed: () => RouterManager.pop(context),
+                    ),
+                    FlatButton(
+                      child: Icon(Icons.file_download, color: Colors.white, size: 30),
+                      onPressed: () {
+
+                      },
+                    )
               ],
+            ),
+            Expanded(
+              child: Center(
+                child: Chewie(
+                  controller: _chewieController,
+                ),
+              ),
             )
-        )
-    );
+          ],
+        )));
   }
 
   @override
   void dispose() {
-    videoPlayerController.dispose();
-    chewieController.dispose();
+    _videoPlayerController.pause();
+    _videoPlayerController.dispose();
+    _chewieController.dispose();
+
     super.dispose();
   }
 }

@@ -15,8 +15,12 @@
     "theme_system": "系统"
   },
   "movie": {
+    "seen": "人看过",
+    "scored": "人评分",
     "none_rating": "暂无评分",
+    "unreleased": "暂未上映",
     "review": "影评",
+    "share": "分享",
     "summary": "简介",
     "casts": "演职员",
     "trailers": "预告 / 花絮 / 剧照",

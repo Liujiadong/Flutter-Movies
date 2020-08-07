@@ -11,34 +11,28 @@ enum Language {
 
 Language languageType(String name) {
   switch (name) {
-    case 'zh':
-      return Language.zh;
     case 'en':
       return Language.en;
     default:
-      return Language.en;
+      return Language.zh;
   }
 }
 
 String languageName(Language language) {
   switch (language) {
-    case Language.zh:
-      return '简体中文';
     case Language.en:
       return 'English';
     default:
-      return 'English';
+      return '简体中文';
   }
 }
 
 String languageFile(Language language) {
   switch (language) {
-    case Language.zh:
-      return 'zh';
     case Language.en:
       return 'en';
     default:
-      return 'en';
+      return 'zh';
   }
 }
 
