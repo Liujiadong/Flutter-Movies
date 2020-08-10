@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
-import 'package:share/share.dart';
 
 class MovieGalleryView extends StatefulWidget {
 
@@ -70,18 +69,12 @@ class _MovieGalleryViewState extends State<MovieGalleryView> {
                             FlatButton(
                               child: Icon(Icons.close, color: Colors.white, size: 30),
                               onPressed: () => RouterManager.pop(context),
-                            ),
-                            FlatButton(
-                              child: Icon(Icons.file_download, color: Colors.white, size: 30),
-                              onPressed: () {
-
-                              },
                             )
                           ],
                         ),
                         Text(
                           "${currentIndex + 1} / ${widget.galleryItems.length}",
-                          style: const TextStyle(
+                          style: TextStyle(
                               color: Colors.white, fontSize: 18.0, fontWeight: FontWeight.bold),
                         ),
                       ],

@@ -3,7 +3,7 @@ import 'package:douban/util/router_manager.dart';
 
 
 class ReviewsView extends CommentsView {
-  ReviewsView(String id) : super(id);
+  ReviewsView(String id, String title) : super(id, title);
 
   @override
   String get extra {

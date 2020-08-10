@@ -6,15 +6,17 @@ import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
 class MoviePlayerView extends StatefulWidget {
-  static open(BuildContext context, String url) {
+  static open(BuildContext context, String url, {String title}) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return MoviePlayerView(url);
+      return MoviePlayerView(url, title: title);
     }));
   }
 
-  String url;
 
-  MoviePlayerView(this.url);
+  String url;
+  String title;
+
+  MoviePlayerView(this.url,{this.title});
 
   @override
   _MoviePlayerViewState createState() => _MoviePlayerViewState();
@@ -51,9 +53,9 @@ class _MoviePlayerViewState extends State<MoviePlayerView> {
                       onPressed: () => RouterManager.pop(context),
                     ),
                     FlatButton(
-                      child: Icon(Icons.file_download, color: Colors.white, size: 30),
+                      child: Icon(Icons.share, color: Colors.white, size: 30),
                       onPressed: () {
-
+                        Share.share('${widget.title}\n${widget.url}');
                       },
                     )
               ],

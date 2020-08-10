@@ -60,7 +60,7 @@ class UserDrawerHeader extends StatelessWidget {
         InkWell(
           child: Icon(Icons.home),
           onTap: () {
-            onTap(ConsString.name, ConsString.mail);
+            onTap("${ConsString.name}'s Blog", ConsString.mail);
           },
         ),
         SizedBox(width: 15)

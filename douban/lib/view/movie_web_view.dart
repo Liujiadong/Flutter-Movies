@@ -40,13 +40,14 @@ class _MovieWebViewState extends State<MovieWebView> {
     return Scaffold(
       appBar: AppBar(
           title: Text(_isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading'),
-              style: TextStyle(fontSize: 15),
+
+                style: TextStyle(fontSize: 15),
               maxLines: 3),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),
               onPressed: (){
-                Share.share(widget.url);
+                Share.share('${widget.title}\n${widget.url}');
               },
             )
           ],

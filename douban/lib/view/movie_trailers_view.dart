@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 import 'movie_gallery_view.dart';
 
+// ignore: must_be_immutable
 class MovieTrailersView extends StatelessWidget {
+
   BuildContext _context;
   EdgeInsetsGeometry margin;
   double height;
@@ -14,6 +16,7 @@ class MovieTrailersView extends StatelessWidget {
   List<VideoModel> videos;
   List<PhotoModel> photos;
 
+  String title;
 
   List<MovieGalleryItem> get galleryItems {
     return photos.map((v) {
@@ -21,7 +24,7 @@ class MovieTrailersView extends StatelessWidget {
     }).toList();
   }
 
-  MovieTrailersView(this.photos, this.videos,
+  MovieTrailersView(this.photos, this.videos, this.title,
       {this.margin = const EdgeInsets.only(top: 5), this.height = 150});
 
   @override
@@ -62,7 +65,7 @@ class MovieTrailersView extends StatelessWidget {
       return Container(
         child: GestureDetector(
           onTap: () {
-            MoviePlayerView.open(_context, v.resource_url);
+            MoviePlayerView.open(_context, v.resource_url, title: '$title(豆瓣预告)');
           },
           child: Stack(
             alignment: Alignment.center,

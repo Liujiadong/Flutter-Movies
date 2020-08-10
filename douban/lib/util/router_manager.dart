@@ -41,9 +41,9 @@ Handler handler(RouterType type) {
       case RouterType.detail:
         return DetailView(params['id']?.first);
       case RouterType.comments:
-        return CommentsView(params['id']?.first);
+        return CommentsView(params['id']?.first, params['title'].first);
       case RouterType.reviews:
-        return ReviewsView(params['id']?.first);
+        return ReviewsView(params['id']?.first, params['title'].first);
       case RouterType.settings:
         return SettingsView();
       default:

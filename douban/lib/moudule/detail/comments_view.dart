@@ -14,10 +14,11 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 class CommentsView extends StatelessWidget {
 
   String id;
+  String title;
   BuildContext _context;
   final refreshController = RefreshController();
 
-  CommentsView(this.id);
+  CommentsView(this.id, this.title);
 
   String get extra {
     return path(RouterType.comments);
@@ -112,10 +113,9 @@ class CommentsView extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 onTap: () {
-                  String title = _comment['title'];
                   String url = _comment['share_url'] ?? '';
                   if (url.isNotEmpty) {
-                    MovieWebView.open(context, url, title: title);
+                    MovieWebView.open(context, url, title: '$title(豆瓣影评)');
                   }
                 },
               )

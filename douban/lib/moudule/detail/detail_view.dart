@@ -69,10 +69,10 @@ class DetailView extends StatelessWidget {
 
         switch (value) {
           case 1:
-            RouterManager.navigateTo(_context, RouterType.reviews, params: 'id=${_movie.id}');
+            RouterManager.navigateTo(_context, RouterType.reviews, params: 'id=${_movie.id}&title=${_movie.title}');
             break;
           case 2:
-            Share.share(_movie.share_url);
+            Share.share('${_movie.title}(豆瓣)\n${_movie.share_url}');
             break;
         }
 
@@ -229,7 +229,7 @@ class DetailView extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               _titleWighet(LocalizationManger.i18n(_context, 'movie.trailers')),
-              MovieTrailersView(_movie.photos, _movie.videos)
+              MovieTrailersView(_movie.photos, _movie.videos, _movie.title)
             ],
           )
       );
@@ -265,7 +265,7 @@ class DetailView extends StatelessWidget {
                       ),
                       onPressed: () {
                         RouterManager.navigateTo(_context, RouterType.comments,
-                            params: 'id=${_movie.id}');
+                            params: 'id=${_movie.id}&title=${_movie.title}');
                       }
                   )
                 ],
