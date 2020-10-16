@@ -1,18 +1,16 @@
 {
   "tab": {
-    "hot": "热映",
-    "coming": "即将上映",
-    "top250": "Top 250",
-    "tv": "电视剧"
+    "home": "首页",
+    "rank": "榜单"
   },
   "settings": {
     "title": "设置",
     "language": "语言",
     "version": "版本",
     "theme": "主题",
-    "theme_light": "日间",
-    "theme_dark": "夜间",
-    "theme_system": "系统"
+    "theme_light": "浅色",
+    "theme_dark": "深色",
+    "theme_system": "跟随系统"
   },
   "movie": {
     "seen": "人看过",
@@ -22,11 +20,13 @@
     "review": "影评",
     "share": "分享",
     "summary": "简介",
-    "casts": "演职员",
-    "trailers": "预告 / 花絮 / 剧照",
+    "casts": "导演 / 演员",
+    "director": "导演",
+    "trailers": "预告",
     "comments": "短评",
     "comments_all": "全部",
-    "loading":"加载中..."
+    "loading":"加载中...",
+    "recommended": "同类推荐"
   },
   "refresh": {
     "empty": "暂无数据",

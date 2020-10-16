@@ -1,46 +1,126 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:douban/model/list_model.dart';
 import 'package:douban/model/movie_model.dart';
 import 'package:douban/util/constant.dart';
-import 'package:douban/util/network_manager.dart';
-import 'package:douban/view_model/viewState_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:palette_generator/palette_generator.dart';
 
-class MovieViewModel extends ViewStateViewModel {
+import 'base_view_model.dart';
+
+class MovieViewModel extends BaseViewModel {
 
 
-  MovieModel movie;
-  Color coverColor = ConsColor.theme;
-  String title = '';
+  Movie movie;
+  Color color;
 
   String id;
 
   MovieViewModel(this.id) {
-    fetch();
+    onRefresh();
   }
 
-  fetch() {
-    setViewState(ViewState.onRefresh);
-    NetworkManager.get(Api.fetchMovie, data: {'id': id}).then((response) {
-      movie = MovieModel.fromJson(response.data);
-      title = movie.title;
-      _fetchColor(movie.smallImage);
-      setViewState(ViewState.refreshCompleted);
-    }, onError:(error) {
-      setViewState(ViewState.refreshError, message: error.message);
-    });
+  @override
+  get data => {'id': id};
+
+  @override
+  String get api => Api.fetchMovie;
+
+  @override
+  refreshCompleted(json) {
+    movie = Movie.fromJson(json);
+    color = HexToColor(movie.color.primary);
   }
 
-  _fetchColor(String cover) async {
+}
 
-    setViewState(ViewState.onLoading);
-    PaletteGenerator paletteGenerator =
-    await PaletteGenerator.fromImageProvider(
-        CachedNetworkImageProvider(cover));
-    if (paletteGenerator.paletteColors.length > 0) {
-      coverColor = paletteGenerator.paletteColors.last.color;
+
+class MovieListViewModel extends BaseViewModel {
+
+  Movies movies;
+  String id;
+
+  int _start = 0;
+
+  MovieListViewModel(this.id) {
+    onRefresh();
+  }
+
+  @override
+  bool get isEmpty => movies.subjects.isEmpty;
+
+  @override
+  bool get refreshNoData {
+    if (movies != null) {
+      return isEmpty;
     }
-    setViewState(ViewState.loadComplete);
+    return true;
   }
+
+  @override
+  String get api => Api.fetchMovieList;
+
+  @override
+  String get extra => Api.movieListPath(id);
+
+  @override
+  get data => {
+    'start': _start,
+    'count': 10
+  };
+
+
+  @override
+  onRefresh() {
+    _start = 0;
+    super.onRefresh();
+  }
+
+  @override
+  onLoading() {
+    _start = movies.subjects.length;
+    super.onLoading();
+  }
+
+  @override
+  refreshCompleted(json) {
+    movies =  Movies.fromJson(json);
+  }
+
+  @override
+  loadComplete(json) {
+    final _movies = Movies.fromJson(json);
+    movies.subjects.addAll(_movies.subjects);
+  }
+
+  @override
+  bool get loadNoData => movies.subjects.length >= movies.total;
+
+}
+
+
+class MovieRecommendedViewModel extends BaseViewModel {
+
+  List<MovieItem> items;
+
+  String id;
+
+  MovieRecommendedViewModel(this.id) {
+    onRefresh();
+  }
+
+  @override
+  get data => {'id': id};
+
+  @override
+  String get api => Api.fetchMovie;
+
+  @override
+  String get extra => '/recommendations';
+
+  @override
+  refreshCompleted(json) {
+    items = (json as List).map((item) => MovieItem.fromJson(item)).toList();
+  }
+
+  @override
+  bool get isEmpty => items.isEmpty;
 
 }

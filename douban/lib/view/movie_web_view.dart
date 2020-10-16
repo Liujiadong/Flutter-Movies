@@ -1,7 +1,7 @@
 
-import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
-import 'package:douban/util/router_manager.dart';
+import 'package:douban/view/base_view.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
@@ -37,12 +37,10 @@ class _MovieWebViewState extends State<MovieWebView> {
   @override
   Widget build(BuildContext context) {
 
+
     return Scaffold(
       appBar: AppBar(
-          title: Text(_isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading'),
-
-                style: TextStyle(fontSize: 15),
-              maxLines: 3),
+          title: Text(_isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading')),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),
@@ -52,39 +50,25 @@ class _MovieWebViewState extends State<MovieWebView> {
             )
           ],
       ),
-      body: WebView(
-        initialUrl: Uri.encodeFull(widget.url),
-        navigationDelegate: (request) {
-
-          final url = Uri.decodeComponent(request.url);
-
-          if (url.contains(ConsString.query_subject)) {
-
-            String id = url.split(ConsString.query_subject).last.replaceAll('/', '');
-
-            if (id.isNotEmpty) {
-              RouterManager.navigateTo(context, RouterType.detail, params: 'id=$id');
-            }
-
-            return NavigationDecision.prevent;
-          } else {
-            return NavigationDecision.navigate;
-          }
-
-
-
-        },
-        onPageStarted: (_) {
-          setState(() {
-            _isFinish = false;
-          });
-        },
-        onPageFinished: (_) {
-          setState(() {
-            _isFinish = true;
-          });
-        },
+      body: Stack(
+        children: [
+          WebView(
+            initialUrl: Uri.encodeFull(widget.url),
+            onPageStarted: (_) {
+              setState(() {
+                _isFinish = false;
+              });
+            },
+            onPageFinished: (_) {
+              setState(() {
+                _isFinish = true;
+              });
+            },
+          ),
+          _isFinish ? Stack() : LoadingIndicator()
+        ],
       )
+
     );
   }
 

@@ -1,9 +1,7 @@
 {
   "tab": {
-    "hot": "In Theaters",
-    "coming": "Coming Soon",
-    "top250": "Top 250",
-    "tv": "TV"
+    "home": "Home Page",
+    "rank": "Rank List"
   },
   "settings": {
     "title": "Settings",
@@ -12,7 +10,7 @@
     "theme": "Theme",
     "theme_light": "Light",
     "theme_dark": "Dark",
-    "theme_system": "System"
+    "theme_system": "Follow System"
   },
   "movie": {
     "seen": " Seen",
@@ -22,11 +20,13 @@
     "review": "Review",
     "share": "Share",
     "summary": "Summary",
-    "casts": "Casts",
-    "trailers": "Trailers / Bloopers / Photos",
+    "casts": "Directors / Actors",
+    "director": "Director",
+    "trailers": "Trailers",
     "comments": "Comments",
     "comments_all": "All",
-    "loading":"Loading..."
+    "loading":"Loading...",
+    "recommended": "Recommended"
   },
   "refresh": {
     "empty": "No Data",

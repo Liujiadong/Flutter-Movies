@@ -5,9 +5,8 @@ import 'constant.dart';
 class NetworkManager {
 
   static const DefaultData = {};
-  static const Apikey = '0df993c66c0c636e29ecbb5344252a4a';
-  static const City = '深圳';
-  static const BaseUrl = 'https://api.douban.com';
+  static const Apikey = '054022eaeae0b00e0fc068c0c0a2102a';
+  static const BaseUrl = 'https://frodo.douban.com/api/v2';
 
   static get _dio => Dio(
       BaseOptions(
@@ -19,21 +18,19 @@ class NetworkManager {
   static Future<Response> get(String path, {String extra, Map<String, dynamic> data}) async {
 
 
+    Map<String, dynamic> param = {'apikey': Apikey};
 
-    data['apikey'] = Apikey;
-    data['city'] = City;
+    param.addAll(data ?? {});
 
-    switch (path) {
-      case Api.fetchMovie:
-        path += '/${data["id"]}';
-        break;
-      default:
-        break;
+    if (path == Api.fetchMovie) {
+      path += '/${param["id"]}';
     }
 
     path += extra ?? '';
 
-    return await _dio.get(path, queryParameters: data);
+
+
+    return await _dio.get(path, queryParameters: param);
 
   }
 

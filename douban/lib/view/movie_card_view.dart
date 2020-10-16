@@ -1,28 +1,27 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:douban/model/movie_model.dart';
+import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/view_model/language_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'base_view.dart';
 
 class MovieCardView extends StatelessWidget {
-  MovieModel movie;
+
+  MovieItem item;
   GestureTapCallback onTap;
   
   MovieCardView({
-    this.movie,
+    this.item,
     this.onTap
   });
 
 
-  BuildContext _context;
+  bool get _isMovieItem => item.directors != null;
 
   @override
   Widget build(BuildContext context) {
-
-    _context = context;
 
     return Card(
         child: InkWell(
@@ -30,7 +29,7 @@ class MovieCardView extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
         child: Row(
-          children: <Widget>[_buildImage, _buildTitle, _buildRating],
+          children: <Widget>[_buildImage, _buildTitle, _buildRating(context)],
         ),
       ),
     ));
@@ -41,19 +40,19 @@ class MovieCardView extends StatelessWidget {
         width: 80,
         margin: EdgeInsets.only(right: 15),
         decoration: BoxDecoration(
-            shape: BoxShape.rectangle,
             borderRadius: BorderRadius.circular(3.0),
             image: DecorationImage(
-                image: CachedNetworkImageProvider(movie.largeImage),
+                image: CachedNetworkImageProvider(item.cover),
                 fit: BoxFit.fill)));
   }
 
   get _buildTitle {
     return Expanded(
       child: Column(
+        mainAxisAlignment: _isMovieItem ? MainAxisAlignment.start:MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           Text(
-            movie.title,
+            item.title,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -61,7 +60,7 @@ class MovieCardView extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(top: 5, bottom: 5),
             child: Text(
-              "${movie.mainland_pubdate} ${movie.durations.isNotEmpty ? "/ ${movie.durations.first}" : ""}",
+              '${item.year}.${item.release_date}',
               maxLines: 1,
               style: TextStyle(
                 color: Colors.grey,
@@ -69,50 +68,59 @@ class MovieCardView extends StatelessWidget {
             ),
           ),
           Text(
-            "${movie.genres.join(" / ")}",
+            item.genre,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
               fontSize: 13,
             ),
           ),
+          _isMovieItem ?
           Text(
-            "${movie.directors.map((staff) => staff.name).join(" / ")}",
+            "${item.directors.join(" / ")}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13),
-          ),
+          ):
+          item.description.isNotEmpty ?
+          Text("\"${item.description}\"",
+              maxLines: 2,
+              style: TextStyle(color: Colors.grey),
+              overflow: TextOverflow.ellipsis):
+          SizedBox(),
+          _isMovieItem ?
           Text(
-            "${movie.casts.map((c) => c.name).join(" / ")}",
+            "${item.actors.join(" / ")}",
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(fontSize: 13),
-          ),
+          ):
+          SizedBox()
         ],
         crossAxisAlignment: CrossAxisAlignment.start,
       ),
     );
   }
 
-  get _buildRating {
+  Widget _buildRating(BuildContext context) {
     return Container(
       width: 80,
       child: Column(children: <Widget>[
-        RatingLabel(movie.rating.average.toString(),
+        RatingLabel(item.rating.value.toString(),
             normalSize: 24, noneSize: 15, noneColor: Colors.grey),
         RatingStar(
-            movie.rating.fullCount,
+            item.rating.fullCount,
             Icon(Icons.star, size: 16, color: Colors.amberAccent),
-            movie.rating.emptyCount,
+            item.rating.emptyCount,
             Icon(Icons.star_border, size: 16, color: Colors.amberAccent),
-            halfCount: movie.rating.halfCount,
+            halfCount: item.rating.halfCount,
             halfIcon:
                 Icon(Icons.star_half, size: 16, color: Colors.amberAccent)),
         Consumer<LanguageViewModel>(builder: (context, _, child) {
           return Text(
-            "${movie.collect_count}${LocalizationManger.i18n(_context, 'movie.seen')}",
+            "${item.rating.count}${LocalizationManger.i18n(context, 'movie.scored')}",
             style: TextStyle(
-              fontSize: 9,
+              fontSize: 10,
             ),
           );
         })

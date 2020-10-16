@@ -1,11 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:douban/model/staff_model.dart';
+import 'package:douban/model/movie_model.dart';
+import 'package:douban/util/localization_manager.dart';
 import 'package:flutter/material.dart';
 import 'movie_gallery_view.dart';
 
 class MovieStaffView extends StatelessWidget {
 
-  List<StaffModel> staffs;
+  List<Staff> staffs;
   BuildContext _context;
   EdgeInsetsGeometry margin;
   double height;
@@ -13,7 +14,7 @@ class MovieStaffView extends StatelessWidget {
 
   List<MovieGalleryItem> get galleryItems {
     return staffs.map((v) {
-      return MovieGalleryItem('staff_${v.id}', v.largeImage);
+      return MovieGalleryItem('staff_${v.id}', v.avatar);
     }).toList();
   }
 
@@ -36,27 +37,27 @@ class MovieStaffView extends StatelessWidget {
           childAspectRatio: 3 / 2,
           mainAxisSpacing: 10,
           children: staffs
-              .map((staff) { return _item(staff); })
+              .map((staff) { return _item(context ,staff);})
               .toList(),
         )
     );
 
   }
 
-  Widget _item(StaffModel staff) {
+  Widget _item(BuildContext context,Staff staff) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _imageWidget(staff),
           Text(staff.name, style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
-          Text(staff.title, style: TextStyle(fontSize: 9, color: Colors.white70))
+          Text(LocalizationManger.i18n(context, staff.title), style: TextStyle(fontSize: 9, color: Colors.white70))
         ],
       ),
     );
   }
 
-  Widget _imageWidget(StaffModel staff) {
+  Widget _imageWidget(Staff staff) {
 
     final index = staffs.indexOf(staff);
 
@@ -68,7 +69,7 @@ class MovieStaffView extends StatelessWidget {
           onTap: () {
             MovieGalleryView.open(_context, galleryItems, index);
           },
-          child: CachedNetworkImage(imageUrl: staff.largeImage, fit: BoxFit.cover)
+          child: CachedNetworkImage(imageUrl: staff.avatar, fit: BoxFit.cover)
         ),
       );
   }

@@ -1,25 +1,74 @@
+import 'package:douban/moudule/home/home_view.dart';
+import 'package:douban/moudule/rank/rank_view.dart';
+import 'package:douban/moudule/settings/settings_view.dart';
 import 'package:flutter/material.dart';
 
+class TabNavigationItem {
+
+  final Widget page;
+  final Widget title;
+  final Icon icon;
+
+  TabNavigationItem({
+    @required this.page,
+    @required this.title,
+    @required this.icon,
+  });
+
+  static List<TabNavigationItem> get items {
+    return [
+      TabNavigationItem(
+        page: HomeView(),
+        icon: Icon(Icons.local_play),
+        title: Text(''),
+      ),
+      TabNavigationItem(
+        page: RankView(),
+        icon: Icon(Icons.bookmark_border),
+        title: Text(''),
+      ),
+      TabNavigationItem(
+        page: SettingsView(),
+        icon: Icon(Icons.settings),
+        title: Text(''),
+      ),
+    ];
+  }
+}
+
+class HexToColor extends Color{
+  static _hexToColor(String code) {
+    return int.parse(code.substring(1, 7), radix: 16) + 0xFF000000;
+  }
+  HexToColor(final String code) : super(_hexToColor(code));
+}
 
 class ConsColor {
-  static const theme = Color.fromRGBO(0, 148, 50, 1.0);
+  static final theme = HexToColor('#52BE80');
+  static final border = HexToColor('#657271');
 }
 
 class Api {
-  static const fetchHot = '/v2/movie/in_theaters';
-  static const fetchComing = '/v2/movie/coming_soon';
-  static const fetchTop250 = '/v2/movie/top250';
-  static const fetchMovie = '/v2/movie/subject';
+
+  static const fetchMovieList = '/subject_collection';
+  static const fetchComing = '/movie/coming_soon';
+  static const fetchMovie = '/movie';
+  static const fetchRanks = '/movie/rank_list';
+
+  static String movieListPath(String extra) {
+    return '/$extra/items';
+  }
 }
 
-class ConsString {
-  static const name = 'ZzzM';
-  static const mail = 'https://github.com/$name';
 
 
-  static const douban_tv = 'https://m.douban.com/tv/';
 
-  static const query_movie = 'https://m.douban.com/search/?type=movie&query=';
-  static const query_subject = 'https://m.douban.com/movie/subject/';
-
+Size screenSize(BuildContext context) {
+  return MediaQuery.of(context).size;
+}
+double screenHeight(BuildContext context, {double dividedBy = 1}) {
+  return screenSize(context).height / dividedBy;
+}
+double screenWidth(BuildContext context, {double dividedBy = 1}) {
+  return screenSize(context).width / dividedBy;
 }

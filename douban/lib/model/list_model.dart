@@ -1,4 +1,5 @@
 import 'package:douban/model/movie_model.dart';
+import 'package:douban/model/rank_model.dart';
 
 abstract class ListModel {
 
@@ -21,7 +22,7 @@ class Movies extends ListModel {
     count = json['count'];
     start = json['start'];
     total = json['total'];
-    subjects = (json['subjects'] as List).map( (json) => MovieModel.fromJson(json)).toList();
+    subjects = (json['subject_collection_items'] as List).map( (json) => MovieItem.fromJson(json)).toList();
   }
 }
 
@@ -31,7 +32,16 @@ class Comments extends ListModel {
     count = json['count'];
     start = json['start'];
     total = json['total'];
-    subjects = json['comments'] ?? json['reviews'];
+    subjects = ((json['interests'] ?? json['reviews'])  as List).map( (json) => CommentItem.fromJson(json)).toList();
   }
 
+}
+
+class Ranks extends ListModel {
+  Ranks.fromJson(json) {
+    count = json['count'];
+    start = json['start'];
+    total = json['total'];
+    subjects = (json['selected_collections']  as List).map( (json) => RankItem.fromJson(json)).toList();
+  }
 }

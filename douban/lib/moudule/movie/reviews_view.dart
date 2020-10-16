@@ -1,5 +1,5 @@
-import 'package:douban/moudule/detail/comments_view.dart';
 import 'package:douban/util/router_manager.dart';
+import 'comments_view.dart';
 
 
 class ReviewsView extends CommentsView {

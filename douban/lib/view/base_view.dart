@@ -1,4 +1,5 @@
 import 'package:douban/model/movie_model.dart';
+import 'package:douban/util/constant.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/view_model/theme_view_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,11 +23,12 @@ class ErrorView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Text(message, style: TextStyle(fontSize: 18), textAlign: TextAlign.center),
-          SizedBox(height: 20),
+          Text(message, style: TextStyle(fontSize: 15), textAlign: TextAlign.center),
+          SizedBox(height: 15),
           RaisedButton(
             color: themeData.primaryColor,
-            child: Text(LocalizationManger.i18n(context, 'refresh.reload'), style: TextStyle(color: Colors.white)),
+            child: Text(LocalizationManger.i18n(context, 'refresh.reload'),
+                style: TextStyle(color: Colors.white)),
             onPressed: onPressed,
           )
         ],
@@ -93,7 +95,7 @@ class RatingStar extends StatelessWidget {
 
     return Row(
       children: stars,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      mainAxisAlignment: MainAxisAlignment.center,
     );
   }
 }
@@ -101,85 +103,34 @@ class RatingStar extends StatelessWidget {
 
 class RatingDesView extends StatelessWidget {
 
-  MovieModel movie;
+  Movie movie;
 
   RatingDesView(this.movie);
 
-  BuildContext _context;
-
-  Widget get noneWidget {
+  Widget _textWidget(String text) {
     return Text(
-        LocalizationManger.i18n(_context, 'movie.unreleased'),
-        style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-            color: Colors.white)
+        text,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(fontSize: 12, color: Colors.white)
     );
   }
-
-  Widget get ratingWidget {
-
-    Map details = movie.rating.details;
-    int total =
-    (details.values.toList().reduce((curr, next) => curr + next)).toInt();
-
-    List<String> keys = details.keys.toList();
-    keys..sort();
-
-
-    var sections = List<Widget>();
-
-    keys.reversed.forEach((value) {
-
-      int num = int.parse(value);
-      double offset =  1 - details[value]/total;
-
-      sections.add(Row(
-        children: <Widget>[
-          Row(
-            children: List<Widget>.filled(num, Icon(Icons.star, size: 12, color: Colors.white30)),
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          ),
-          Container(margin: EdgeInsets.only(left: 5),
-              decoration: BoxDecoration(
-                  color: Colors.white10,
-                  borderRadius: BorderRadius.circular(2)),
-              height: 5,
-              width: 100,
-              child: Container(
-                decoration: BoxDecoration(
-                    color: Colors.amberAccent,
-                    borderRadius: BorderRadius.circular(2)),
-                margin: EdgeInsets.only(right: 100*offset),
-              )
-          )
-        ],
-      )
-      );
-    }
-
-    );
-
-    sections.add(
-        Text('${movie.ratings_count}${LocalizationManger.i18n(_context, 'movie.scored')}',
-            style: TextStyle(
-                fontSize: 10,
-                color: Colors.white))
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: sections,
-    );
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
-    return movie.rating.average == 0 ? noneWidget: ratingWidget;
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _textWidget('上映：${movie.released ? movie.pubdate : LocalizationManger.i18n(context, 'movie.unreleased')}'),
+          _textWidget('类型：${movie.genres}'),
+          _textWidget('片长：${movie.durations}'),
+          _textWidget('地区：${movie.countries}'),
+          _textWidget('语言：${movie.languages}'),
+        ],
+      )
+    );
+
   }
 }
 
@@ -187,12 +138,23 @@ class RefreshHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClassicHeader(
-        refreshingIcon: CupertinoActivityIndicator(),
-        idleText: LocalizationManger.i18n(context, 'refresh.idleRefresh'),
-        refreshingText: LocalizationManger.i18n(context, 'refresh.canRefresh'),
-        releaseText: LocalizationManger.i18n(context, 'refresh.refreshing'),
-        completeText: LocalizationManger.i18n(context, 'refresh.refreshComplete'),
+        failedIcon: Icon(Icons.error, color: ConsColor.theme),
+        completeIcon: Icon(Icons.done, color: ConsColor.theme),
+        idleIcon: Icon(Icons.arrow_downward, color: ConsColor.theme),
+        releaseIcon: Icon(Icons.refresh, color: ConsColor.theme),
+        refreshingIcon: SizedBox(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme),
+              strokeWidth: 3),
+          height: 15.0,
+          width: 15.0,
+        ),
+        idleText: '',
+        refreshingText: '',
+        releaseText: '',
+        completeText: '',
         failedText: LocalizationManger.i18n(context, 'refresh.refreshFailed')
+
     );
   }
 }
@@ -201,13 +163,35 @@ class RefreshFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ClassicFooter(
-        loadingIcon: CupertinoActivityIndicator(),
-        idleText: LocalizationManger.i18n(context, 'refresh.idleLoading'),
-        loadingText: LocalizationManger.i18n(context, 'refresh.loading'),
-        canLoadingText: LocalizationManger.i18n(context, 'refresh.canLoading'),
+        loadingIcon: SizedBox(
+          child: CircularProgressIndicator(
+              valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme),
+              strokeWidth: 3),
+          height: 15.0,
+          width: 15.0,
+        ),
+        canLoadingIcon: Icon(Icons.autorenew, color: ConsColor.theme),
+        failedIcon: Icon(Icons.error, color: ConsColor.theme),
+        idleIcon: Icon(Icons.arrow_upward, color:ConsColor.theme),
+
+        idleText: '',
+        loadingText: '',
+        canLoadingText: '',
         noDataText: LocalizationManger.i18n(context, 'refresh.noMore'),
-        failedText: LocalizationManger.i18n(context, 'refresh.loadFailed')
+        failedText: LocalizationManger.i18n(context, 'refresh.loadFailed'),
+
     );
   }
 }
 
+class LoadingIndicator extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+        padding: EdgeInsets.only(bottom: 150),
+        child: Center(
+          child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme)),
+        )
+    );
+  }
+}

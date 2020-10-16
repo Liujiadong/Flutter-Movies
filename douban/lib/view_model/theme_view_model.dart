@@ -37,8 +37,17 @@ ThemeMode fetchThemeMode(String name) {
 }
 
 ThemeData lightData = ThemeData.light().copyWith(
-    primaryColor: ConsColor.theme);
-ThemeData darkData = ThemeData.dark();
+    primaryColor: ConsColor.theme,
+    bottomNavigationBarTheme: BottomNavigationBarThemeData(
+      unselectedItemColor: Colors.grey.shade400,
+    )
+);
+
+ThemeData darkData = ThemeData.dark().copyWith(
+  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+    unselectedItemColor: Colors.grey.shade600,
+  )
+);
 
 
 

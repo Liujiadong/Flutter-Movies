@@ -5,11 +5,11 @@ import 'package:flutter/material.dart';
 
 class MovieGridView extends StatelessWidget {
   
-  MovieModel movie;
+  MovieItem item;
   GestureTapCallback onTap;
 
   MovieGridView({
-    this.movie,
+    this.item,
     this.onTap
   });
 
@@ -39,18 +39,19 @@ class MovieGridView extends StatelessWidget {
     return Expanded(
         child: Container(
             decoration: BoxDecoration(
-                shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(3.0),
                 image: DecorationImage(
-                    image: CachedNetworkImageProvider(movie.largeImage),
-                    fit: BoxFit.fill)))
+                    image: CachedNetworkImageProvider(item.cover),
+                    fit: BoxFit.fill)
+            )
+        )
     );
   }
 
   get _buildTitle {
     return Padding(
       child: Text(
-          movie.title,
+          item.title,
           style: TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold)
@@ -66,16 +67,16 @@ class MovieGridView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           RatingStar(
-              movie.rating.fullCount,
+              item.rating.fullCount,
             Icon(Icons.star, size: 15, color: Colors.amberAccent),
-            movie.rating.emptyCount,
+              item.rating.emptyCount,
             Icon(Icons.star_border, size: 15, color: Colors.amberAccent),
-              halfCount: movie.rating.halfCount,
+              halfCount: item.rating.halfCount,
               halfIcon: Icon(Icons.star_half,
                   size: 15, color: Colors.amberAccent)
 
           ),
-          RatingLabel(movie.rating.average.toString(),
+          RatingLabel(item.rating.value.toString(),
               normalSize: 10,
               noneSize: 10,
               noneColor: Colors.grey),
