@@ -88,9 +88,7 @@ class RankListView extends StatelessWidget {
           return MovieCardView(
               item: item,
               onTap: () {
-                RouterManager.navigateTo(context, RouterType.detail,
-                    params:
-                        'id=${item.id}&title=${Uri.encodeComponent(item.title)}');
+                RouterManager.toMovie(context, RouterType.detail, item.id, item.title);
               });
         });
   }

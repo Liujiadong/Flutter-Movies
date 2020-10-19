@@ -1,6 +1,7 @@
 import 'package:douban/model/movie_model.dart';
 import 'package:douban/util/localization_manager.dart';
 import 'package:douban/util/provider_manager.dart';
+import 'package:douban/util/router_manager.dart';
 import 'package:douban/view/base_view.dart';
 import 'package:douban/view/movie_grid_view.dart';
 import 'package:douban/view_model/movie_view_model.dart';
@@ -18,11 +19,16 @@ class RecommendView extends StatelessWidget {
     return ProviderWidget<MovieRecommendedViewModel>(
       model: MovieRecommendedViewModel(id),
       builder: (context, model, _) {
-        return Column(
+        return  Column(
           children: [
-            SizedBox(height: 20),
-            Text(LocalizationManger.i18n(context, 'movie.recommended'), style: TextStyle(fontSize: 18)),
-            _body(context, model)
+            SizedBox(height: 15),
+            Text(LocalizationManger.i18n(context, 'movie.recommended'), style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            SizedBox(height: 15),
+            Container(
+              height: 400,
+              child: _body(context, model),
+            )
+
           ],
         );
       },
@@ -33,7 +39,7 @@ class RecommendView extends StatelessWidget {
   Widget _body(BuildContext context,MovieRecommendedViewModel model) {
 
     final state = model.viewState;
-    List<MovieItem> items = model.items;
+    List<MovieGridItem> movies = model.movies;
 
     if (state == ViewState.onRefresh) {
       return LoadingIndicator();
@@ -53,11 +59,16 @@ class RecommendView extends StatelessWidget {
 
     return GridView.count(
       scrollDirection: Axis.horizontal,
-      crossAxisCount: 1,
+      crossAxisCount: 2,
       childAspectRatio: 3 / 2,
       mainAxisSpacing: 10,
-      children: items
-          .map((item) { return MovieGridView(item: item);})
+      children: movies
+          .map((movie) { return MovieGridView(
+          movie: movie,
+          onTap: () {
+            RouterManager.toMovie(context, RouterType.detail, movie.id, movie.title);
+      });
+          })
           .toList(),
     );
 

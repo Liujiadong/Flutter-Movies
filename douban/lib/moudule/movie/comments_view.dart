@@ -98,17 +98,17 @@ class CommentsView extends StatelessWidget {
     return ListView.builder(
         itemCount: comments.subjects.length ?? 0,
         itemBuilder: (context, index) {
-          CommentItem _comment =  comments.subjects[index];
+          CommentItem comment =  comments.subjects[index];
 
           return Card(
               child: InkWell(
                 child: Container(
-                  child: MovieCommentView(_comment),
+                  child: MovieCommentView(comment),
                   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                 ),
                 onTap: () {
-                  if (_comment.url != null) {
-                    MovieWebView.open(context, _comment.url, title: title);
+                  if (comment.url != null) {
+                    MovieWebView.open(context, comment.url, title: title);
                   }
                 },
               )

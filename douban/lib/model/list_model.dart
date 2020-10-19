@@ -8,6 +8,9 @@ abstract class ListModel {
   num total;
   List subjects;
 
+  String id;
+  String name;
+
   ListModel({
     this.count,
     this.start,
@@ -23,8 +26,12 @@ class Movies extends ListModel {
     start = json['start'];
     total = json['total'];
     subjects = (json['subject_collection_items'] as List).map( (json) => MovieItem.fromJson(json)).toList();
+    id = json['subject_collection']['id'];
+    name = json['subject_collection']['name'];
   }
 }
+
+
 
 class Comments extends ListModel {
 
@@ -45,3 +52,4 @@ class Ranks extends ListModel {
     subjects = (json['selected_collections']  as List).map( (json) => RankItem.fromJson(json)).toList();
   }
 }
+

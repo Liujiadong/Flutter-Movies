@@ -18,7 +18,7 @@ class SettingsView extends StatelessWidget {
     return Consumer<LanguageViewModel>(builder: (context, viewModel, _) {
       return Scaffold(
         appBar: AppBar(
-            title: Text(LocalizationManger.i18n(context, 'settings.title'))
+            title: Text(LocalizationManger.i18n(context, 'tab.settings'))
         ),
         body: ListView(
           children: ListTile.divideTiles(
@@ -29,14 +29,14 @@ class SettingsView extends StatelessWidget {
                     subtitle: Text(languageName(StorageManager.language)),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
-                      _push(context, 'settings.language');
+                      RouterManager.toSetting(context, 'settings.language');
                     }),
                 ListTile(
                     title: Text(LocalizationManger.i18n(context, 'settings.theme')),
                     subtitle: Text(LocalizationManger.i18n(context, themeKey(StorageManager.themeMode))),
                     trailing: Icon(Icons.chevron_right),
                     onTap: () {
-                      _push(context, 'settings.theme');
+                      RouterManager.toSetting(context, 'settings.theme');
                     }),
                 ListTile(
                     title: Text(LocalizationManger.i18n(context, 'settings.version')),
@@ -51,8 +51,5 @@ class SettingsView extends StatelessWidget {
 
   }
 
-  _push(BuildContext context, String type) {
-    RouterManager.navigateTo(context, RouterType.settings_detail, params: 'type=$type');
-  }
 
 }

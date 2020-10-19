@@ -15,10 +15,16 @@ class RankItemView extends StatelessWidget {
 
 
     return Container(
-      child: Row(
+      child: Stack(
+        alignment: Alignment.centerLeft,
         children: [
+          Row(
+            children: [
+              SizedBox(width: 119),
+              _content(context),
+            ],
+          ),
           _cover,
-          _content(context)
         ],
       ),
       padding: EdgeInsets.symmetric(horizontal: 10),
@@ -30,14 +36,14 @@ class RankItemView extends StatelessWidget {
     return Container(
         height: 120,
         width: 120,
-        child: CachedNetworkImage(imageUrl: item.cover_url),
         decoration: BoxDecoration(
-          border: Border.all(color: ConsColor.border,width: 0.5),
+            borderRadius: BorderRadius.circular(5.0),
+            image: DecorationImage(
+                image: CachedNetworkImageProvider(item.cover_url),
+                fit: BoxFit.fill
+            ),
           boxShadow: [
-            BoxShadow(
-              color: ConsColor.border,
-              blurRadius: 3,
-            )
+            BoxShadow(color: ConsColor.border, blurRadius: 5, offset: Offset(3,3))
           ]
         )
     );

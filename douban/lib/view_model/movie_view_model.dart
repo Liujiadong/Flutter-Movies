@@ -58,7 +58,7 @@ class MovieListViewModel extends BaseViewModel {
   String get api => Api.fetchMovieList;
 
   @override
-  String get extra => Api.movieListPath(id);
+  String get extra => Api.itemsPath(id);
 
   @override
   get data => {
@@ -98,7 +98,7 @@ class MovieListViewModel extends BaseViewModel {
 
 class MovieRecommendedViewModel extends BaseViewModel {
 
-  List<MovieItem> items;
+  List<MovieGridItem> movies;
 
   String id;
 
@@ -117,10 +117,10 @@ class MovieRecommendedViewModel extends BaseViewModel {
 
   @override
   refreshCompleted(json) {
-    items = (json as List).map((item) => MovieItem.fromJson(item)).toList();
+    movies = (json as List).map((item) => MovieGridItem.fromJson(item)).toList();
   }
 
   @override
-  bool get isEmpty => items.isEmpty;
+  bool get isEmpty => movies.isEmpty;
 
 }

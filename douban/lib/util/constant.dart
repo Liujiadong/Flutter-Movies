@@ -51,13 +51,14 @@ class ConsColor {
 class Api {
 
   static const fetchMovieList = '/subject_collection';
-  static const fetchComing = '/movie/coming_soon';
   static const fetchMovie = '/movie';
   static const fetchRanks = '/movie/rank_list';
 
-  static String movieListPath(String extra) {
+  static String itemsPath(String extra) {
     return '/$extra/items';
   }
+
+
 }
 
 

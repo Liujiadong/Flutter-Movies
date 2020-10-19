@@ -107,6 +107,37 @@ class MovieItem {
 
 }
 
+class MovieGridItem {
+
+  String id;
+  String title;
+  String cover;
+  String url;
+  Rating rating;
+
+
+  MovieGridItem.fromJson(json) {
+
+    id = json['id'];
+    title = json['title'];
+    cover = json['pic']['normal'].toString().replaceAll('webp', 'jpg');
+    rating = Rating.fromJson(json['rating']);
+    url = json['url'];
+
+  }
+
+  MovieGridItem.from(MovieItem movie) {
+
+    id = movie.id;
+    title = movie.title;
+    cover = movie.cover;
+    rating = movie.rating;
+
+  }
+
+}
+
+
 class Rating {
 
   num value = 0;

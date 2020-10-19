@@ -53,6 +53,7 @@ class DetailView extends StatelessWidget {
   }
 
   List<Widget> _actionButtons(MovieViewModel model) {
+
     if (model.viewState != ViewState.refreshCompleted) {
       return [];
     }
@@ -223,8 +224,6 @@ class DetailView extends StatelessWidget {
 
   Widget get _reviewWidget {
 
-    final params = 'id=${_movie.id}&title=${Uri.encodeComponent(_movie.title)}';
-
     return Container(
         padding: EdgeInsets.symmetric(vertical: 15),
         child: Column(
@@ -233,13 +232,13 @@ class DetailView extends StatelessWidget {
                 title: _titleWighet(LocalizationManger.i18n(_context, 'movie.comments')),
                 trailing: Icon(Icons.chevron_right, color: Colors.white),
                 onTap: () {
-                  RouterManager.navigateTo(_context, RouterType.comments, params: params);
+                  RouterManager.toMovie(_context, RouterType.comments, _movie.id, _movie.title);
                 }),
             ListTile(
                 title: _titleWighet(LocalizationManger.i18n(_context, 'movie.review')),
                 trailing: Icon(Icons.chevron_right, color: Colors.white),
                 onTap: () {
-                  RouterManager.navigateTo(_context, RouterType.reviews, params: params);
+                  RouterManager.toMovie(_context, RouterType.reviews, _movie.id, _movie.title);
                 }),
           ],
         )

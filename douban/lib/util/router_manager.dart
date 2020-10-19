@@ -8,10 +8,11 @@ import 'package:douban/moudule/settings/settings_detail_view.dart';
 import 'package:douban/moudule/settings/settings_view.dart';
 import 'package:douban/moudule/tab/tabBar_view.dart';
 import 'package:fluro/fluro.dart';
+
 import 'package:flutter/cupertino.dart';
 
 enum RouterType {
-  home,
+  root,
   detail,
   rank_list,
   comments,
@@ -23,8 +24,6 @@ enum RouterType {
 
 String path(RouterType type) {
   switch (type) {
-    case RouterType.home:
-      return '/home';
     case RouterType.detail:
       return '/detail';
     case RouterType.settings:
@@ -46,8 +45,6 @@ Handler handler(RouterType type) {
   return Handler(handlerFunc: (context, params) {
 
     switch (type) {
-      case RouterType.home:
-        return TabBarView();
       case RouterType.detail:
         return DetailView(params['id'].first, params['title'].first);
       case RouterType.comments:
@@ -61,7 +58,7 @@ Handler handler(RouterType type) {
       case RouterType.rank_list:
         return RankListView(params['id'].first, params['title'].first);
       default:
-        return HomeView();
+        return TabBarView();
     }
   });
 }
@@ -77,8 +74,13 @@ TransitionType transitionType(RouterType type) {
 }
 
 class RouterManager {
-  static Router router = Router();
+
+  static FluroRouter router = FluroRouter();
+
   static setup() {
+
+   // router.notFoundHandler
+
     RouterType.values.forEach((v){
       router.define(path(v), handler: handler(v));
     });
@@ -89,7 +91,7 @@ class RouterManager {
   }
 
 
-  static navigateTo(BuildContext context, RouterType type, {String params = ''}) {
+  static _navigateTo(BuildContext context, RouterType type, {String params = ''}) {
 
     final _path = path(type);
     final _transition = transitionType(type);
@@ -98,9 +100,19 @@ class RouterManager {
         router.navigateTo(
             context,
             _path + (params.isEmpty ? params : '?$params'),
-            transition: _transition);
+            transition: _transition,
+            transitionDuration: const Duration(milliseconds: 600));
     }
 
+  }
+
+  static toMovie(BuildContext context, RouterType type, String id, String title) {
+    String params = 'id=$id&title=${Uri.encodeComponent(title)}';
+    _navigateTo(context, type, params: params);
+  }
+
+  static toSetting(BuildContext context, String type) {
+    _navigateTo(context, RouterType.settings_detail, params: 'type=$type');
   }
 
 }

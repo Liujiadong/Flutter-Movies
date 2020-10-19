@@ -42,7 +42,7 @@ class _TheAppState extends State<TheApp> with WidgetsBindingObserver {
                 theme: lightData,
                 darkTheme: darkData,
                 themeMode: StorageManager.themeMode,
-                initialRoute: path(RouterType.home),
+                initialRoute: path(RouterType.root),
                 onGenerateRoute: RouterManager.router.generator,
                 localizationsDelegates: [
                   LocalizationManger.delegate,

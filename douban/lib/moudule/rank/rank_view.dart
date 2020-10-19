@@ -17,8 +17,6 @@ class RankView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-
-
     return ProviderWidget<RankViewModel>(
       model: RankViewModel(),
       builder: (context, model, _) {
@@ -51,6 +49,7 @@ class RankView extends StatelessWidget {
     }
 
     if (viewState == ViewState.refreshError) {
+
       return ErrorView(model.message, () {
         model.onRefresh();
       });
@@ -73,9 +72,7 @@ class RankView extends StatelessWidget {
               InkWell(
                 child: RankItemView(_rankItem),
                 onTap: () {
-                  RouterManager.navigateTo(context,
-                      RouterType.rank_list,
-                      params: 'id=${_rankItem.id}&title=${Uri.encodeComponent(_rankItem.name)}');
+                  RouterManager.toMovie(context, RouterType.rank_list, _rankItem.id, _rankItem.name);
                 },
               ),
             ],

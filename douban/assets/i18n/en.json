@@ -1,7 +1,8 @@
 {
   "tab": {
     "home": "Home Page",
-    "rank": "Rank List"
+    "rank": "Rank List",
+    "settings": "Settings"
   },
   "settings": {
     "title": "Settings",
