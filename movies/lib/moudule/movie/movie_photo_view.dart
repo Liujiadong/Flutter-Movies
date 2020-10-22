@@ -1,15 +1,15 @@
 import 'package:movies/util/localization_manager.dart';
-import 'package:movies/view/base_view.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/view/refresh_view.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class PhotosView extends StatelessWidget {
+class MoviePhotoView extends StatelessWidget {
 
-  String id, title;
+  final String id, title;
 
 
-  PhotosView(this.id, this.title);
+  MoviePhotoView(this.id, this.title);
 
   final _refreshController = RefreshController();
   final _scaffoldkey = GlobalKey<ScaffoldState>();

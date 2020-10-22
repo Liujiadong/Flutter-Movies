@@ -1,71 +1,123 @@
-import 'package:movies/model/movie_model.dart';
-import 'package:movies/util/constant.dart';
+
 import 'package:movies/util/localization_manager.dart';
+import 'package:movies/util/util.dart';
+import 'package:movies/view/provider_view.dart';
+
 import 'package:movies/view_model/base_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/view_model/home_view_model.dart';
+
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:movies/view/refresh_view.dart';
 
 import 'error_view.dart';
 
 
+class BaseTitleView extends StatelessWidget {
 
-class RefreshHeader extends StatelessWidget {
+  final String text;
+
+  BaseTitleView(this.text);
+
   @override
   Widget build(BuildContext context) {
-    return ClassicHeader(
-        failedIcon: Icon(Icons.error, color: ConsColor.theme),
-        completeIcon: Icon(Icons.done, color: ConsColor.theme),
-        idleIcon: Icon(Icons.arrow_downward, color: ConsColor.theme),
-        releaseIcon: Icon(Icons.refresh, color: ConsColor.theme),
-        refreshingIcon: SizedBox(
-          child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme),
-              strokeWidth: 3),
-          height: 15.0,
-          width: 15.0,
-        ),
-        idleText: '',
-        refreshingText: '',
-        releaseText: '',
-        completeText: '',
-        failedText: LocalizationManger.i18n(context, 'refresh.refreshFailed'));
-  }
-}
-
-class RefreshFooter extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ClassicFooter(
-      loadingIcon: SizedBox(
-        child: CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme),
-            strokeWidth: 3),
-        height: 15.0,
-        width: 15.0,
-      ),
-      canLoadingIcon: Icon(Icons.autorenew, color: ConsColor.theme),
-      failedIcon: Icon(Icons.error, color: ConsColor.theme),
-      idleIcon: Icon(Icons.arrow_upward, color: ConsColor.theme),
-      idleText: '',
-      loadingText: '',
-      canLoadingText: '',
-      noDataText: LocalizationManger.i18n(context, 'refresh.noMore'),
-      failedText: LocalizationManger.i18n(context, 'refresh.loadFailed'),
+    return Container(
+      child: Text(LocalizationManger.i18n(context, text),
+          style: TextStyle(
+              color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+      margin: EdgeInsets.only(bottom: 5),
     );
   }
 }
 
-class CircularIndicator extends StatelessWidget {
+class BaseRefreshView<T extends BaseViewModel> extends StatelessWidget {
+
+  final _refreshController = RefreshController();
+  final _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  final T viewModel;
+  final String title;
+
+  BaseRefreshView(this.title, this.viewModel);
+
   @override
   Widget build(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.only(bottom: 150),
-        child: Center(
-          child: CircularProgressIndicator(
-              valueColor: AlwaysStoppedAnimation<Color>(ConsColor.theme)),
-        ));
+    return ProviderView<T>(
+        viewModel: viewModel,
+        builder: (context, model, _) {
+          return Scaffold(
+            key: _scaffoldkey,
+            appBar: AppBar(
+                title: Text(LocalizationManger.i18n(context, title))
+            ),
+            body: SmartRefresher(
+              controller: _refreshController,
+              header: RefreshHeader(),
+              enablePullDown: !model.refreshNoData,
+              onRefresh: model.onRefresh,
+              child: _refreshChild(context, viewModel),
+            ),
+          );
+        }
+    );
   }
+
+  Widget _refreshChild(BuildContext context, T viewModel) {
+
+    final state = viewModel.viewState;
+
+    if (state == ViewState.onRefresh && viewModel.refreshNoData) {
+      return RefreshCircularIndicator();
+    }
+
+    if (state == ViewState.refreshCompleted) {
+      _refreshController.resetNoData();
+      _refreshController.refreshCompleted();
+    }
+
+    if (state == ViewState.refreshError) {
+      _refreshController.refreshFailed();
+    }
+
+    if (state == ViewState.onLoading) {
+      _refreshController.refreshToIdle();
+    }
+
+    if (state == ViewState.loadNoData) {
+      _refreshController.loadNoData();
+    }
+
+    if (state == ViewState.loadComplete) {
+      _refreshController.loadComplete();
+    }
+
+    if (state == ViewState.loadError) {
+      _refreshController.loadFailed();
+    }
+
+
+    switch (state) {
+      case ViewState.loadError:
+      case ViewState.refreshError:
+      case ViewState.empty:
+        if (viewModel.refreshNoData) {
+          return ErrorView(viewModel.message, onRefresh: viewModel.onRefresh);
+        } else {
+          showSnackBar(_scaffoldkey, viewModel.message);
+          break;
+        }
+    }
+
+    return bodyView;
+
+  }
+
+  Widget get bodyView {
+    return RefreshCircularIndicator();
+  }
+
 }
+
 
 Widget baseRefreshView (
     {@required BaseViewModel model,
@@ -74,7 +126,9 @@ Widget baseRefreshView (
     @required Widget Function() builder}) {
 
   if (model.viewState == ViewState.onRefresh && model.refreshNoData) {
-    return CircularIndicator();
+
+
+    return RefreshCircularIndicator();
   }
 
   if (model.viewState == ViewState.refreshCompleted) {
@@ -117,10 +171,7 @@ Widget baseRefreshView (
   return builder();
 }
 
-showSnackBar(GlobalKey<ScaffoldState> key, String text) {
-  if (key.currentState != null) {
-    key.currentState.showSnackBar(
-        SnackBar(content: Text(text), backgroundColor: ConsColor.theme)
-    );
-  }
-}
+
+
+
+

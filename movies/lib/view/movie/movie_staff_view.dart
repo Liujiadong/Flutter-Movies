@@ -1,55 +1,65 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:movies/model/base_model.dart';
 import 'package:movies/model/movie_model.dart';
 import 'package:movies/util/localization_manager.dart';
 import 'package:flutter/material.dart';
-import '../movie_gallery_view.dart';
+import '../base_view.dart';
+import '../gallery_view.dart';
 
 class MovieStaffView extends StatelessWidget {
 
-  List<MovieStaff> staffs;
-  BuildContext _context;
-  EdgeInsetsGeometry margin;
-  double height;
+  final List<MovieStaff> staffs;
 
 
-  List<MovieGalleryItem> get galleryItems {
+  List<GalleryItem> get galleryItems {
     return staffs.map((v) {
-      return MovieGalleryItem('staff_${v.id}', v.avatar);
+      return GalleryItem('staff_${v.id}', v.avatar);
     }).toList();
   }
 
-  MovieStaffView(
-      this.staffs,
-      {this.margin = const EdgeInsets.only(top: 5),
-        this.height = 150});
+  MovieStaffView(this.staffs);
 
   @override
   Widget build(BuildContext context) {
 
-    _context = context;
+    final _staffs = staffs.where((staff) {
+      return staff.avatar != null;
+    }).toList();
 
-    return Container(
-        margin: margin,
-        height: height,
-        child: GridView.count(
-          scrollDirection: Axis.horizontal,
-          crossAxisCount: 1,
-          childAspectRatio: 3 / 2,
-          mainAxisSpacing: 10,
-          children: staffs
-              .map((staff) { return _item(context ,staff);})
-              .toList(),
-        )
-    );
+    if (_staffs.isNotEmpty) {
+      return Container(
+          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              BaseTitleView('movie.casts'),
+              Container(
+                  margin: EdgeInsets.only(top: 5),
+                  height: 150,
+                  child: GridView.count(
+                    scrollDirection: Axis.horizontal,
+                    crossAxisCount: 1,
+                    childAspectRatio: 3 / 2,
+                    mainAxisSpacing: 10,
+                    children: _staffs
+                        .map((staff) { return _itemView(context ,staff);})
+                        .toList(),
+                  )
+              )
+            ],
+          ));
+    }
+    return SizedBox();
+
 
   }
 
-  Widget _item(BuildContext context,MovieStaff staff) {
+  Widget _itemView(BuildContext context,MovieStaff staff) {
     return Container(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          _imageWidget(staff),
+          _imageView(context,staff),
           Text(staff.name, style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
           Text(LocalizationManger.i18n(context, staff.title), style: TextStyle(fontSize: 9, color: Colors.white70))
         ],
@@ -57,7 +67,7 @@ class MovieStaffView extends StatelessWidget {
     );
   }
 
-  Widget _imageWidget(MovieStaff staff) {
+  Widget _imageView(BuildContext context, MovieStaff staff) {
 
     final index = staffs.indexOf(staff);
 
@@ -67,7 +77,7 @@ class MovieStaffView extends StatelessWidget {
         width: 100,
         child: GestureDetector(
           onTap: () {
-            MovieGalleryView.open(_context, galleryItems, index);
+            GalleryView.open(context, galleryItems, index);
           },
           child: CachedNetworkImage(imageUrl: staff.avatar, fit: BoxFit.cover)
         ),

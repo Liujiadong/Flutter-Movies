@@ -1,12 +1,12 @@
-import 'package:movies/moudule/movie/comments_view.dart';
-import 'package:movies/moudule/movie/detail_view.dart';
-import 'package:movies/moudule/movie/photos_view.dart';
-import 'package:movies/moudule/movie/reviews_view.dart';
+import 'package:movies/moudule/movie/movie_comment_view.dart';
+import 'package:movies/moudule/movie/movie_view.dart';
+import 'package:movies/moudule/movie/movie_photo_view.dart';
+import 'package:movies/moudule/movie/movie_review_view.dart';
 import 'package:movies/moudule/rank/rank_list_view.dart';
 
 import 'package:movies/moudule/settings/settings_detail_view.dart';
 import 'package:movies/moudule/settings/settings_view.dart';
-import 'package:movies/moudule/tab/tabBar_view.dart';
+import 'package:movies/moudule/bottom_tabBar_view.dart';
 import 'package:fluro/fluro.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -49,11 +49,11 @@ Handler handler(RouterType type) {
 
     switch (type) {
       case RouterType.detail:
-        return DetailView(params['id'].first, params['title'].first);
+        return MovieView(params['id'].first, params['title'].first);
       case RouterType.comments:
-        return CommentsView(params['id'].first, params['title'].first);
+        return MovieCommentView(params['id'].first, params['title'].first);
       case RouterType.reviews:
-        return ReviewsView(params['id'].first, params['title'].first);
+        return MovieReviewView(params['id'].first, params['title'].first);
       case RouterType.settings:
         return SettingsView();
       case RouterType.settings_detail:
@@ -61,9 +61,9 @@ Handler handler(RouterType type) {
       case RouterType.rank_list:
         return RankListView(params['id'].first, params['title'].first);
       case RouterType.photos:
-        return PhotosView(params['id'].first, params['title'].first);
+        return MoviePhotoView(params['id'].first, params['title'].first);
       default:
-        return TabBarView();
+        return BottomTabBarView();
     }
   });
 }

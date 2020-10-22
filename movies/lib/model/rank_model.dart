@@ -11,34 +11,25 @@ class RankList extends BaseList {
 
 }
 
-class RankListItem {
-  String name;
-  String id;
+class RankListItem extends BaseMovie  {
+
   String header_bg_image;
   String cover_url;
   List<RankMovie> items;
 
-  RankListItem.fromJson(json) {
-    name = json['name'];
+  RankListItem.fromJson(json) : super.fromJson(json) {
     header_bg_image = json['header_bg_image'];
-    id = json['id'];
     cover_url = json['cover_url'];
     items = (json['items'] as List).map((v) => RankMovie.fromJson(v)).toList();
   }
 }
 
-class RankMovie {
+class RankMovie extends BaseMovie {
 
-  String title;
-  String id;
   String cover;
-  MovieRating rating;
 
-  RankMovie.fromJson(json) {
-    id = json['id'];
-    title = json['title'];
+  RankMovie.fromJson(json) : super.fromJson(json) {
     cover = json['pic']['normal'].toString().replaceAll('webp', 'jpg');
-    rating = MovieRating.fromJson(json['rating']);
   }
 
 }

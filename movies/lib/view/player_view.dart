@@ -5,24 +5,26 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 import 'package:video_player/video_player.dart';
 
-class MoviePlayerView extends StatefulWidget {
+class PlayerView extends StatefulWidget {
+
   static open(BuildContext context, String url, {String title}) {
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return MoviePlayerView(url, title: title);
+      return PlayerView(url, title: title);
     }));
   }
 
 
-  String url;
-  String title;
+  final String url;
+  final String title;
 
-  MoviePlayerView(this.url,{this.title});
+  PlayerView(this.url,{this.title});
 
   @override
-  _MoviePlayerViewState createState() => _MoviePlayerViewState();
+  _PlayerViewState createState() => _PlayerViewState();
 }
 
-class _MoviePlayerViewState extends State<MoviePlayerView> {
+class _PlayerViewState extends State<PlayerView> {
+
   VideoPlayerController _videoPlayerController;
   ChewieController _chewieController;
 

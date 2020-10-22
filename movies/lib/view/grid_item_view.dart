@@ -4,15 +4,15 @@ import 'package:movies/model/movie_model.dart';
 import 'package:flutter/material.dart';
 
 
-class MovieGridItemView extends StatelessWidget {
+class GridItemView extends StatelessWidget {
 
-  MovieGridItem item;
-  GestureTapCallback onTap;
+  final MovieGridItem item;
+  final VoidCallback onTap;
 
-  MovieGridItemView({
+  GridItemView(
     this.item,
     this.onTap
-  });
+  );
 
 
   @override
@@ -24,9 +24,9 @@ class MovieGridItemView extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _buildImage,
-                _buildTitle,
-                _buildRating
+                _imageView,
+                _titleView,
+                _ratingView
               ],
             )
 
@@ -34,7 +34,7 @@ class MovieGridItemView extends StatelessWidget {
     );
   }
 
-  get _buildImage {
+  Widget get _imageView {
 
     return Expanded(
         child: Container(
@@ -51,7 +51,7 @@ class MovieGridItemView extends StatelessWidget {
     );
   }
 
-  get _buildTitle {
+  Widget get _titleView {
     return Padding(
       child: Text(
           item.title,
@@ -64,7 +64,7 @@ class MovieGridItemView extends StatelessWidget {
     );
   }
 
-  get _buildRating {
+  Widget get _ratingView {
     return Padding(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

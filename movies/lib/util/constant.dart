@@ -1,51 +1,22 @@
-import 'package:movies/moudule/home/home_view.dart';
-import 'package:movies/moudule/rank/rank_view.dart';
-import 'package:movies/moudule/settings/settings_view.dart';
-import 'package:flutter/material.dart';
 
-class TabNavigationItem {
+import 'package:movies/util/util.dart';
+import 'package:movies/view_model/language_view_model.dart';
+import 'package:movies/view_model/theme_view_model.dart';
+import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 
-  final Widget page;
-  final Widget title;
-  final Icon icon;
 
-  TabNavigationItem({
-    @required this.page,
-    @required this.title,
-    @required this.icon,
-  });
+List<SingleChildWidget> providers = [
+  ChangeNotifierProvider(create: (_) => ThemeViewModel()),
+  ChangeNotifierProvider(create: (_) => LanguageViewModel())
+];
 
-  static List<TabNavigationItem> get items {
-    return [
-      TabNavigationItem(
-        page: HomeView(),
-        icon: Icon(Icons.local_play),
-        title: Text(''),
-      ),
-      TabNavigationItem(
-        page: RankView(),
-        icon: Icon(Icons.bookmark_border),
-        title: Text(''),
-      ),
-      TabNavigationItem(
-        page: SettingsView(),
-        icon: Icon(Icons.settings),
-        title: Text(''),
-      ),
-    ];
-  }
-}
 
-class HexToColor extends Color {
-  static _hexToColor(String code) {
-    return int.parse(code.substring(1, 7), radix: 16) + 0xFF000000;
-  }
-  HexToColor(final String code) : super(_hexToColor(code));
-}
+
 
 class ConsColor {
-  static final theme = HexToColor('#52BE80');
-  static final border = HexToColor('#657271');
+  static final theme = hexColor('#52BE80');
+  static final border = hexColor('#657271');
 }
 
 class Api {
@@ -60,13 +31,10 @@ class Api {
 
 }
 
-Size screenSize(BuildContext context) {
-  return MediaQuery.of(context).size;
-}
-double screenHeight(BuildContext context, {double dividedBy = 1}) {
-  return screenSize(context).height / dividedBy;
-}
-double screenWidth(BuildContext context, {double dividedBy = 1}) {
-  return screenSize(context).width / dividedBy;
-}
+
+
+
+
+
+
 

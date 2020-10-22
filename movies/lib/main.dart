@@ -1,5 +1,5 @@
+import 'package:movies/util/constant.dart';
 import 'package:movies/util/localization_manager.dart';
-import 'package:movies/util/provider_manager.dart';
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/util/storage_manager.dart';
 import 'package:movies/view_model/theme_view_model.dart';
@@ -20,29 +20,30 @@ void main() async {
 
   RouterManager.setup();
 
-  runApp(TheApp());
+  runApp(MovieApp());
 }
 
-class TheApp extends StatefulWidget {
+class MovieApp extends StatefulWidget {
   @override
-  _TheAppState createState() => _TheAppState();
+  _MovieAppState createState() => _MovieAppState();
 }
 
-class _TheAppState extends State<TheApp> with WidgetsBindingObserver {
+class _MovieAppState extends State<MovieApp> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+
 
     return MultiProvider(
         providers: providers,
         child: Consumer<ThemeViewModel>(
           builder: (context, _, widget) {
+
             return MaterialApp(
                 debugShowCheckedModeBanner: false,
                 theme: lightData,
                 darkTheme: darkData,
                 themeMode: StorageManager.themeMode,
-                initialRoute: path(RouterType.root),
                 onGenerateRoute: RouterManager.router.generator,
                 localizationsDelegates: [
                   LocalizationManger.delegate,

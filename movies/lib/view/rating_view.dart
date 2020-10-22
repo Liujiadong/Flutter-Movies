@@ -1,18 +1,15 @@
-import 'package:movies/model/movie_model.dart';
 import 'package:movies/util/localization_manager.dart';
 import 'package:flutter/material.dart';
 
 
 class RatingScoreView extends StatelessWidget {
-  String text;
 
-  double normalSize;
-  double noneSize;
+  final String text, placeholder;
 
-  Color normalColor;
-  Color noneColor;
+  final double normalSize, noneSize;
 
-  String placeholder;
+  final Color normalColor, noneColor;
+
 
   RatingScoreView(this.text,
       {this.normalSize,
@@ -37,13 +34,9 @@ class RatingScoreView extends StatelessWidget {
 }
 
 class RatingStarView extends StatelessWidget {
-  num fullCount;
-  num emptyCount;
-  num halfCount;
+  final num fullCount, emptyCount, halfCount;
 
-  Icon fullIcon;
-  Icon emptyIcon;
-  Icon halfIcon;
+  final Icon fullIcon, emptyIcon, halfIcon;
 
   RatingStarView(this.fullCount, this.fullIcon, this.emptyCount, this.emptyIcon,
       {this.halfCount, this.halfIcon});

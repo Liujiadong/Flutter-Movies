@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import '../rating_view.dart';
 
 class MovieRatingView extends StatelessWidget {
-  Movie movie;
+
+  final Movie movie;
 
   MovieRatingView(this.movie);
 
-  Widget _textWidget(String text) {
+  Widget _textView(String text) {
     return Text(text,
         overflow: TextOverflow.ellipsis,
         style: TextStyle(fontSize: 12, color: Colors.white));
@@ -52,12 +53,12 @@ class MovieRatingView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  _textWidget(
+                  _textView(
                       '上映：${movie.released ? movie.pubdate : LocalizationManger.i18n(context, 'movie.unreleased')}'),
-                  _textWidget('类型：${movie.genres}'),
-                  _textWidget('片长：${movie.durations}'),
-                  _textWidget('地区：${movie.countries}'),
-                  _textWidget('语言：${movie.languages}'),
+                  _textView('类型：${movie.genres}'),
+                  _textView('片长：${movie.durations}'),
+                  _textView('地区：${movie.countries}'),
+                  _textView('语言：${movie.languages}'),
                 ],
               ))
         ],

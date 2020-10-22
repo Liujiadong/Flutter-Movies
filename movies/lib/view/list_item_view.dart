@@ -8,15 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 
-class MovieListItemView extends StatelessWidget {
+class ListItemView extends StatelessWidget {
 
   final MovieListItem item;
   final VoidCallback onTap;
 
-  MovieListItemView({
+  ListItemView(
     this.item,
     this.onTap
-  });
+  );
 
 
   bool get _isMovieItem => item.directors != null;
@@ -30,13 +30,16 @@ class MovieListItemView extends StatelessWidget {
           child: Container(
             margin: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
             child: Row(
-              children: <Widget>[_buildImage, _buildTitle, _buildRating(context)],
+              children: <Widget>[
+                _imageView,
+                _titleView,
+                _ratingView(context)],
             ),
           ),
         ));
   }
 
-  get _buildImage {
+  get _imageView {
     return Container(
         width: 80,
         margin: EdgeInsets.only(right: 15),
@@ -47,7 +50,7 @@ class MovieListItemView extends StatelessWidget {
                 fit: BoxFit.fill)));
   }
 
-  get _buildTitle {
+  get _titleView {
     return Expanded(
       child: Column(
         mainAxisAlignment: _isMovieItem ? MainAxisAlignment.start:MainAxisAlignment.spaceEvenly,
@@ -103,7 +106,7 @@ class MovieListItemView extends StatelessWidget {
     );
   }
 
-  Widget _buildRating(BuildContext context) {
+  Widget _ratingView(BuildContext context) {
     return Container(
       width: 80,
       child: Column(children: <Widget>[

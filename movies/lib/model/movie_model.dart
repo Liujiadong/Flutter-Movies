@@ -13,14 +13,12 @@ class MovieList extends BaseList {
 
 }
 
-class Movie {
+class Movie extends BaseMovie {
 
-  String title;
   String cover;
 
-  MovieColor color;
+  BaseColor color;
 
-  MovieRating rating;
   List<MovieStaff> actors;
   List<MovieStaff> directors;
 
@@ -33,7 +31,6 @@ class Movie {
   String languages;
   String countries;
   String genres;
-  String id;
   String url;
 
   List<MovieStaff> get staffs {
@@ -42,15 +39,13 @@ class Movie {
     return directors + actors;
   }
 
-  Movie.fromJson(json) {
+  Movie.fromJson(json) : super.fromJson(json) {
 
-    id = json['id'];
-    title = json['title'];
+
     cover = json['pic']['normal'].toString().replaceAll('webp', 'jpg');
-    rating = MovieRating.fromJson(json['rating']);
     actors = (json['actors'] as List).map((v) => MovieStaff.fromJson(v)).toList();
     directors = (json['directors'] as List).map((v) => MovieStaff.fromJson(v)).toList();
-    color = MovieColor.fromJson(json['color_scheme']);
+    color = BaseColor.fromJson(json['color_scheme']);
     intro = json['intro'];
     url = json['info_url'];
 
@@ -69,14 +64,12 @@ class Movie {
 
 }
 
-class MovieListItem {
+class MovieListItem extends BaseMovie {
 
-  String title;
+
   String subtitle;
   String info;
   String cover;
-
-  MovieRating rating;
 
   List actors;
   List directors;
@@ -86,13 +79,9 @@ class MovieListItem {
 
   String original_title;
 
-
-  String id;
-
-
   String description;
 
-  get genre {
+  String get genre {
     final list = info.split('/');
     if (list.length > 2) {
       return list[1].trim();
@@ -101,14 +90,11 @@ class MovieListItem {
   }
 
 
-  MovieListItem.fromJson(json) {
+  MovieListItem.fromJson(json) : super.fromJson(json) {
 
-    id = json['id'];
-    title = json['title'];
     subtitle = json['card_subtitle'];
     info = json['info'];
     cover = json['cover']['url'].toString().replaceAll('webp', 'jpg');
-    rating = MovieRating.fromJson(json['rating']);
     actors = json['actors'];
     directors = json['directors'];
     year = json['year'];
@@ -118,27 +104,23 @@ class MovieListItem {
 
   }
 
+
 }
 
-class MovieGridItem {
+class MovieGridItem extends BaseMovie {
 
-  String id;
-  String title;
   String cover;
   String url;
-  MovieRating rating;
 
-  MovieGridItem.fromJson(json) {
+  MovieGridItem.fromJson(json) : super.fromJson(json) {
 
-    id = json['id'];
-    title = json['title'];
     cover = json['pic']['normal'].toString().replaceAll('webp', 'jpg');
-    rating = MovieRating.fromJson(json['rating']);
     url = json['url'];
 
   }
 
-  MovieGridItem.from(MovieListItem movie) {
+
+  MovieGridItem.from(MovieListItem movie) : super() {
 
     id = movie.id;
     title = movie.title;
@@ -150,85 +132,27 @@ class MovieGridItem {
 }
 
 
-class MovieRating {
-
-  num value = 0;
-  String stars = '0.0';
-  num count = 0;
-
-  get fullCount {
-    return num.parse(stars[0]).toInt();
-  }
-
-  get halfCount {
-    if (stars.length > 2) {
-      return num.parse(stars[2] ?? 0) ~/ 5;
-    }
-    return 0;
-  }
-
-  get emptyCount {
-    return 5 - fullCount - halfCount;
-  }
 
 
-  MovieRating.fromJson(json) {
-    if (json != null) {
-      value = json['value'];
-      stars = json['star_count'].toString();
-      count = json['count'];
-    }
+class MovieStaff extends BaseMovie {
 
-  }
-
-}
-
-
-class MovieColor {
-
-  bool isDark;
-  String dark;
-  String light;
-  String secondary;
-
-  get primary {
-    return '#${isDark ? dark : light}';
-  }
-
-  MovieColor.fromJson(json) {
-    isDark = json['is_dark'];
-    dark = json['primary_color_dark'];
-    light = json['primary_color_light'];
-    secondary = json['secondary_color'];
-  }
-
-}
-
-class MovieStaff {
-  String id;
-  String name;
   String avatar;
-  String title;
 
-  MovieStaff.fromJson(json) {
-    id = json['id'];
-    name = json['name'];
+  MovieStaff.fromJson(json) : super.fromJson(json) {
     avatar = json['cover_url'];
   }
 }
 
-class MovieTrailer {
-  String id;
-  String title;
+class MovieTrailer extends BaseMovie {
+
   String cover;
   String video;
 
-  MovieTrailer.fromJson(json) {
-    id = json['id'];
-    title = json['title'];
+  MovieTrailer.fromJson(json) : super.fromJson(json) {
     cover = json['cover_url'];
     video = json['video_url'];
   }
+
 }
 
 

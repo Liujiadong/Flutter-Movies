@@ -50,7 +50,6 @@ ThemeData darkData = ThemeData.dark().copyWith(
 );
 
 
-
 class ThemeViewModel extends ChangeNotifier {
 
   ThemeData data(BuildContext context) {

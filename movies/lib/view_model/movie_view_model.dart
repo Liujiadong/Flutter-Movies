@@ -3,6 +3,7 @@ import 'package:movies/model/movie_model.dart';
 import 'package:movies/util/constant.dart';
 import 'package:movies/util/router_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/util/util.dart';
 import 'base_view_model.dart';
 
 class MovieViewModel extends BaseViewModel {
@@ -25,7 +26,7 @@ class MovieViewModel extends BaseViewModel {
   @override
   refreshCompleted(json) {
     movie = Movie.fromJson(json);
-    color = HexToColor(movie.color.primary);
+    color = hexColor(movie.color.primary);
   }
 
 }
@@ -95,13 +96,13 @@ class MovieListViewModel extends BaseViewModel {
 }
 
 
-class MovieRecommendedViewModel extends BaseViewModel {
+class MovieRecommendViewModel extends BaseViewModel {
 
   List<MovieGridItem> movies;
 
   String id;
 
-  MovieRecommendedViewModel(this.id) {
+  MovieRecommendViewModel(this.id) {
     onRefresh();
   }
 
@@ -150,7 +151,7 @@ class MovieCommentViewModel extends BaseViewModel {
   get data => {
     'id': id,
     'start': _start,
-    'count': 10
+    'count': 15
   };
 
   @override

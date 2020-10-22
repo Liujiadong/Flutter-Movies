@@ -28,8 +28,6 @@ class NetworkManager {
 
     path += extra ?? '';
 
-
-
     return await _dio.get(path, queryParameters: param);
 
   }

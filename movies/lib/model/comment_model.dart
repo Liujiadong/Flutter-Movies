@@ -13,20 +13,17 @@ class CommentList extends BaseList {
 
 }
 
-class CommentListItem {
+class CommentListItem extends BaseMovie {
 
-  MovieRating rating;
   num useful_count;
-  String title;
   String url;
   String abstract;
   String create_time;
   User user;
 
-  CommentListItem.fromJson(json) {
-    rating = MovieRating.fromJson(json['rating']);
+  CommentListItem.fromJson(json) : super.fromJson(json) {
+
     useful_count = json['useful_count'] ?? json['vote_count'];
-    title = json['title'];
     url = json['sharing_url'];
     abstract = json['abstract'] ?? json['comment'];
     create_time = json['create_time'];

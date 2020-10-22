@@ -10,11 +10,13 @@ import 'package:provider/provider.dart';
 
 import 'package:movies/view_model/theme_view_model.dart';
 
-class SettingsView extends StatelessWidget {
 
+class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    print('Scaffold');
 
     return Consumer<LanguageViewModel>(builder: (context, viewModel, _) {
       return Scaffold(

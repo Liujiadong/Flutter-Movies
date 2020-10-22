@@ -1,8 +1,9 @@
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/util/provider_manager.dart';
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/view/base_view.dart';
-import 'package:movies/view/movie/movie_list_item_view.dart';
+import 'package:movies/view/list_item_view.dart';
+import 'package:movies/view/provider_view.dart';
+import 'package:movies/view/refresh_view.dart';
 import 'package:movies/view_model/movie_view_model.dart';
 
 
@@ -19,8 +20,8 @@ class RankListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<MovieListViewModel>(
-      model: MovieListViewModel(id),
+    return ProviderView<MovieListViewModel>(
+      viewModel: MovieListViewModel(id),
       builder: (context, model, _) {
         return Scaffold(
             key: _scaffoldkey,
@@ -54,10 +55,11 @@ class RankListView extends StatelessWidget {
               itemCount: list.subjects.length,
               itemBuilder: (context, index) {
                 MovieListItem item = list.subjects[index];
-                return MovieListItemView(
-                    item: item,
-                    onTap: () {
-                      RouterManager.toMovie(context, RouterType.detail, item.id, item.title);
+                return ListItemView(item,() {
+                      RouterManager.toMovie(context,
+                          RouterType.detail,
+                          item.id,
+                          item.title);
                     });
               });
 

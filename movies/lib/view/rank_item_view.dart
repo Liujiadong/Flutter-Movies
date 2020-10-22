@@ -1,37 +1,49 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:movies/model/rank_model.dart';
 import 'package:movies/util/constant.dart';
+import 'package:movies/util/util.dart';
 import 'package:movies/view_model/theme_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RankItemView extends StatelessWidget {
-  RankListItem item;
 
-  RankItemView(this.item);
+  final RankListItem item;
+  final VoidCallback onTap;
+
+  RankItemView(this.item, this.onTap);
 
   @override
   Widget build(BuildContext context) {
 
-
-    return Container(
-      child: Stack(
-        alignment: Alignment.centerLeft,
-        children: [
-          Row(
-            children: [
-              SizedBox(width: 119),
-              _content(context),
-            ],
+    return Column(
+      children: [
+        SizedBox(height: 10),
+        InkWell(
+          child: Container(
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                Row(
+                  children: [
+                    SizedBox(width: 119),
+                    _contentView(context),
+                  ],
+                ),
+                _coverView,
+              ],
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 10),
           ),
-          _cover,
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 10),
+          onTap: onTap,
+        ),
+      ],
     );
+
+
   }
 
-  Widget get _cover {
+  Widget get _coverView {
 
     return Container(
         height: 120,
@@ -49,7 +61,7 @@ class RankItemView extends StatelessWidget {
     );
   }
 
-  Widget _content(BuildContext context) {
+  Widget _contentView(BuildContext context) {
 
     final theme = Provider.of<ThemeViewModel>(context, listen: false);
     final themeData = theme.data(context);
@@ -69,12 +81,12 @@ class RankItemView extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: item.items.map((movie) => _item(movie)).toList(),
+        children: item.items.map((movie) => _itemView(movie)).toList(),
       )
     );
   }
 
-  Widget _item(RankMovie movie) {
+  Widget _itemView(RankMovie movie) {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,

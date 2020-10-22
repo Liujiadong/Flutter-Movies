@@ -1,24 +1,26 @@
 import 'package:movies/model/comment_model.dart';
-import 'package:movies/model/movie_model.dart';
+
 import 'package:movies/util/localization_manager.dart';
-import 'package:movies/util/provider_manager.dart';
+
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/view/base_view.dart';
-import 'package:movies/view/movie_comment_view.dart';
+import 'package:movies/view/comment_item_view.dart';
+import 'package:movies/view/provider_view.dart';
+import 'package:movies/view/refresh_view.dart';
 import 'package:movies/view_model/movie_view_model.dart';
-import 'package:movies/view/movie_web_view.dart';
+import 'package:movies/view/webpage_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
-class CommentsView extends StatelessWidget {
+class MovieCommentView extends StatelessWidget {
 
-  String id, title;
+  final String id, title;
 
   final _refreshController = RefreshController();
   final _scaffoldkey = GlobalKey<ScaffoldState>();
 
-  CommentsView(this.id, this.title);
+  MovieCommentView(this.id, this.title);
 
   String get extra {
     return path(RouterType.comments);
@@ -32,8 +34,8 @@ class CommentsView extends StatelessWidget {
   Widget build(BuildContext context) {
 
 
-    return ProviderWidget<MovieCommentViewModel>(
-        model: MovieCommentViewModel(id, extra),
+    return ProviderView<MovieCommentViewModel>(
+        viewModel: MovieCommentViewModel(id, extra),
         builder: (context, model, _) {
           return Scaffold(
             key: _scaffoldkey,
@@ -69,19 +71,13 @@ class CommentsView extends StatelessWidget {
 
                 CommentListItem item =  list.subjects[index];
 
-                return Card(
-                    child: InkWell(
-                      child: Container(
-                        child: MovieCommentView(item),
-                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                      ),
-                      onTap: () {
-                        if (item.url != null) {
-                          MovieWebView.open(context, item.url, title: title);
-                        }
-                      },
-                    )
-                );
+                return CommentItemView(item, (){
+                  if (item.url.isNotEmpty) {
+                    WebpageView.open(context, item.url, title: title);
+                  }
+                });
+
+
               });
         },
     );

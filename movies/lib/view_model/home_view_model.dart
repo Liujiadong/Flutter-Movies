@@ -34,7 +34,6 @@ class HomeViewModel extends BaseViewModel {
   }
 
   @override
-  // TODO: implement refreshNoData
   bool get refreshNoData {
     if (lists != null) {
       return isEmpty;
@@ -47,7 +46,10 @@ class HomeViewModel extends BaseViewModel {
 
   Future<MovieList> _fetch(String extra) async {
     Response response = await NetworkManager.get(Api.fetchMovieList,
-        extra: Api.itemsPath(extra), data: {'start': 0, 'count': 6});
+        extra: Api.itemsPath(extra),
+        data: {'start': 0, 'count': 6}
+        );
     return MovieList.fromJson(response.data);
   }
+
 }

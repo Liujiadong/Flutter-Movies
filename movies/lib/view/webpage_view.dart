@@ -1,14 +1,14 @@
-
 import 'package:movies/util/localization_manager.dart';
-import 'package:movies/view/base_view.dart';
+
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/view/refresh_view.dart';
 import 'package:share/share.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 
-class MovieWebView extends StatefulWidget {
+class WebpageView extends StatefulWidget {
 
   String url;
   String title;
@@ -17,18 +17,18 @@ class MovieWebView extends StatefulWidget {
     Navigator.push(
         context,
         MaterialPageRoute(
-            builder: (context) => MovieWebView(url, title: title)
+            builder: (context) => WebpageView(url, title: title)
         )
     );
   }
 
-  MovieWebView(this.url, {this.title});
+  WebpageView(this.url, {this.title});
 
   @override
-  _MovieWebViewState createState() => _MovieWebViewState();
+  _WebpageViewState createState() => _WebpageViewState();
 }
 
-class _MovieWebViewState extends State<MovieWebView> {
+class _WebpageViewState extends State<WebpageView> {
 
 
   bool _isFinish = false;
@@ -65,7 +65,7 @@ class _MovieWebViewState extends State<MovieWebView> {
               });
             },
           ),
-          _isFinish ? Stack() : CircularIndicator()
+          _isFinish ? Stack() : RefreshCircularIndicator()
         ],
       )
 

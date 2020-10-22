@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:movies/util/constant.dart';
 import 'package:movies/util/localization_manager.dart';
 import 'package:movies/util/router_manager.dart';
@@ -8,69 +10,70 @@ import 'package:provider/provider.dart';
 import 'package:movies/util/storage_manager.dart';
 
 class SettingsDetailView extends StatelessWidget {
-  String type;
+
+  final String type;
   SettingsDetailView(this.type);
-  BuildContext _context;
+
 
   @override
   Widget build(BuildContext context) {
-    _context = context;
 
     return Scaffold(
       appBar: AppBar(title: Text(LocalizationManger.i18n(context, type))),
       body: ListView(
-        children: ListTile.divideTiles(context: context, tiles: _listItems).toList(),
+        children: ListTile.divideTiles(context: context, tiles: _tiles(context)).toList(),
       ),
     );
+
   }
 
-  get _listItems {
-    switch (type) {
-      case 'settings.language':
-        return _languageItems;
-      default:
-        return _themeItems;
+  List<Widget> _tiles(BuildContext context) {
+
+    List<String> titles;
+    int currIndex;
+    void Function(int) onTap;
+
+    if (type == 'settings.language') {
+      final values = Language.values;
+      titles = values.map((v) => languageName(v)).toList();
+      currIndex = values.indexOf(StorageManager.language);
+      onTap = (index) {
+        Provider.of<LanguageViewModel>(context, listen: false)
+            .refresh(context, values[index]);
+      };
+    } else {
+      final values = ThemeMode.values;
+      titles = values.map((v) => LocalizationManger.i18n(context, themeKey(v))).toList();
+      currIndex = values.indexOf(StorageManager.themeMode);
+      onTap = (index) {
+        Provider.of<ThemeViewModel>(context, listen: false)
+            .change(values[index]);
+      };
     }
-  }
 
-  get _languageItems {
-    return Language.values.map((v) {
 
-      bool isCurrent = v == StorageManager.language;
+    return List.generate(titles.length, (index) {
+
+      final title = titles[index];
+      final isCurrent = index == currIndex;
 
       return ListTile(
-        title: Text(languageName(v)),
+        title: Text(title),
         trailing: isCurrent
             ? Icon(Icons.check, color: ConsColor.theme)
             : null,
         onTap: () {
           if (!isCurrent) {
-            Provider.of<LanguageViewModel>(_context, listen: false)
-                .refresh(_context, v);
+            onTap(index);
           }
-          RouterManager.pop(_context);
+          RouterManager.pop(context);
         },
       );
-    }).toList();
+
+    });
+
   }
 
-  get _themeItems {
-    return ThemeMode.values.map<Widget>((v) {
 
-      bool isCurrent = v == StorageManager.themeMode;
 
-      return ListTile(
-        title: Text(LocalizationManger.i18n(_context, themeKey(v))),
-        trailing: isCurrent
-            ? Icon(Icons.check, color: ConsColor.theme)
-            : null,
-        onTap: () {
-          if (!isCurrent) {
-            Provider.of<ThemeViewModel>(_context, listen: false).change(v);
-          }
-          RouterManager.pop(_context);
-        },
-      );
-    }).toList();
-  }
 }

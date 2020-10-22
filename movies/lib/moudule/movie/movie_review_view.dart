@@ -1,10 +1,10 @@
 import 'package:movies/util/router_manager.dart';
-import 'comments_view.dart';
+import 'movie_comment_view.dart';
 
 
-class ReviewsView extends CommentsView {
+class MovieReviewView extends MovieCommentView {
 
-  ReviewsView(String id, String title) : super(id, title);
+  MovieReviewView(String id, String title) : super(id, title);
 
   @override
   String get extra {

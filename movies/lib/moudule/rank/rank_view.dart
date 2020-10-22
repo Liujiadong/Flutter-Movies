@@ -1,12 +1,14 @@
 import 'package:movies/model/rank_model.dart';
 import 'package:movies/util/localization_manager.dart';
-import 'package:movies/util/provider_manager.dart';
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/view/base_view.dart';
+import 'package:movies/view/provider_view.dart';
 import 'package:movies/view/rank_item_view.dart';
+import 'package:movies/view/refresh_view.dart';
 import 'package:movies/view_model/rank_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 
 class RankView extends StatelessWidget {
 
@@ -15,8 +17,8 @@ class RankView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderWidget<RankViewModel>(
-        model: RankViewModel(),
+    return ProviderView<RankViewModel>(
+        viewModel: RankViewModel(),
         builder: (context, model, _) {
           return Scaffold(
             key: _scaffoldkey,
@@ -46,20 +48,14 @@ class RankView extends StatelessWidget {
           return ListView.builder(
               itemCount: list.subjects.length ?? 0,
               itemBuilder: (context, index) {
+
                 RankListItem item = list.subjects[index];
 
-                return Column(
-                  children: [
-                    SizedBox(height: 10),
-                    InkWell(
-                      child: RankItemView(item),
-                      onTap: () {
-                        RouterManager.toMovie(context, RouterType.rank_list,
-                            item.id, item.name);
-                      },
-                    ),
-                  ],
-                );
+                return RankItemView(item, () {
+                  RouterManager.toMovie(context, RouterType.rank_list,
+                      item.id, item.name);
+                });
+
               });
 
         });
