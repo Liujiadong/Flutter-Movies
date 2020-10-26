@@ -1,6 +1,3 @@
-import 'package:movies/util/localization_manager.dart';
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movies/view/refresh_view.dart';
@@ -40,7 +37,7 @@ class _WebpageViewState extends State<WebpageView> {
 
     return Scaffold(
       appBar: AppBar(
-          title: Text(_isFinish ? widget.title:LocalizationManger.i18n(context, 'movie.loading')),
+          title: Text(widget.title),
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.share),

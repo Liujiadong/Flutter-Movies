@@ -1,3 +1,4 @@
+
 import 'package:movies/util/constant.dart';
 import 'package:movies/util/localization_manager.dart';
 import 'package:movies/util/router_manager.dart';
@@ -9,18 +10,19 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 
-
 void main() async {
-
 
   WidgetsFlutterBinding.ensureInitialized();
 
-  await StorageManager.setup();
-  await LocalizationManger.setup();
+  await StorageManager.setup().then((_) {
 
-  RouterManager.setup();
+    LocalizationManger.setup();
+    RouterManager.setup();
+    runApp(MovieApp());
 
-  runApp(MovieApp());
+  });
+
+
 }
 
 class MovieApp extends StatefulWidget {
@@ -28,11 +30,21 @@ class MovieApp extends StatefulWidget {
   _MovieAppState createState() => _MovieAppState();
 }
 
-class _MovieAppState extends State<MovieApp> with WidgetsBindingObserver {
+class _MovieAppState extends State<MovieApp> {
+
+  Widget _home;
+
+  @override
+  void initState() {
+    setState(() {
+      _home = TestView();
+    });
+    super.initState();
+
+  }
 
   @override
   Widget build(BuildContext context) {
-
 
     return MultiProvider(
         providers: providers,
@@ -44,6 +56,7 @@ class _MovieAppState extends State<MovieApp> with WidgetsBindingObserver {
                 theme: lightData,
                 darkTheme: darkData,
                 themeMode: StorageManager.themeMode,
+                initialRoute: '/',
                 onGenerateRoute: RouterManager.router.generator,
                 localizationsDelegates: [
                   LocalizationManger.delegate,
@@ -53,6 +66,21 @@ class _MovieAppState extends State<MovieApp> with WidgetsBindingObserver {
             );
           },
         )
+    );
+  }
+}
+
+class TestView extends StatefulWidget {
+  @override
+  _TestViewState createState() => _TestViewState();
+}
+
+class _TestViewState extends State<TestView> {
+  @override
+  Widget build(BuildContext context) {
+    print('TestView');
+    return Container(
+      color: Colors.blue,
     );
   }
 }

@@ -14,7 +14,7 @@ class StorageManager {
   static SharedPreferences prefs;
   static PackageInfo packageInfo;
 
-  static setup() async {
+  static Future setup() async {
     prefs = await SharedPreferences.getInstance();
     packageInfo = await PackageInfo.fromPlatform();
   }
@@ -30,7 +30,9 @@ class StorageManager {
     prefs.setString(StorageKey.themeMode, themeName(mode));
   }
 
-  static get themeMode => fetchThemeMode(prefs.getString(StorageKey.themeMode));
+  static ThemeMode get themeMode {
+    return fetchThemeMode(prefs.getString(StorageKey.themeMode));
+  }
 
 
 }

@@ -1,4 +1,5 @@
 
+import 'package:movies/model/base_model.dart';
 import 'package:movies/view/error_view.dart';
 import 'package:movies/view/movie/movie_cover_view.dart';
 import 'package:movies/view/movie/movie_other_view.dart';

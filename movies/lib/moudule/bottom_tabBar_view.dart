@@ -16,30 +16,6 @@ class _BottomTabBarViewState extends State<BottomTabBarView> {
 
   final _items = TabNavigationItem.items;
 
-  BottomNavigationBar _bottomNavigationBar;
-
-  @override
-  void initState() {
-    super.initState();
-
-    final _bottomItems = _items.map((item) {
-      return BottomNavigationBarItem(
-        label: item.title,
-        icon: item.icon,
-      );
-    }).toList();
-
-    _bottomNavigationBar = BottomNavigationBar(
-      selectedItemColor: ConsColor.theme,
-      currentIndex: _curr,
-      onTap: (index) {
-        setState(() {
-          _curr = index;
-        });
-      },
-      items: _bottomItems,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,13 +25,28 @@ class _BottomTabBarViewState extends State<BottomTabBarView> {
       return item.page;
     }).toList();
 
+    final _bottomItems = _items.map((item) {
+      return BottomNavigationBarItem(
+        label: item.title,
+        icon: item.icon,
+      );
+    }).toList();
 
     return Scaffold(
       body: IndexedStack(
         index: _curr,
         children: _children,
       ),
-      bottomNavigationBar:_bottomNavigationBar,
+      bottomNavigationBar:  BottomNavigationBar(
+        selectedItemColor: ConsColor.theme,
+        currentIndex: _curr,
+        onTap: (index) {
+          setState(() {
+            _curr = index;
+          });
+        },
+        items: _bottomItems,
+      ),
     );
   }
 }

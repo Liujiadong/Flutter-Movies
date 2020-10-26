@@ -1,8 +1,7 @@
 import 'package:movies/model/comment_model.dart';
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/util/constant.dart';
-import 'package:movies/util/router_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/model/photo_model.dart';
 import 'package:movies/util/util.dart';
 import 'base_view_model.dart';
 
@@ -21,9 +20,6 @@ class MovieViewModel extends BaseViewModel {
   get data => {'id': id};
 
   @override
-  String get api => Api.fetchMovie;
-
-  @override
   refreshCompleted(json) {
     movie = Movie.fromJson(json);
     color = hexColor(movie.color.primary);
@@ -31,76 +27,11 @@ class MovieViewModel extends BaseViewModel {
 
 }
 
-
-class MovieListViewModel extends BaseViewModel {
-
-  MovieList list;
-  String id;
-
-  int _start = 0;
-
-  MovieListViewModel(this.id) {
-    onRefresh();
-  }
-
-  @override
-  bool get isEmpty => list.subjects.isEmpty;
-
-  @override
-  bool get refreshNoData {
-    if (list != null) {
-      return isEmpty;
-    }
-    return true;
-  }
-
-  @override
-  String get api => Api.fetchMovieList;
-
-  @override
-  String get extra => Api.itemsPath(id);
-
-  @override
-  get data => {
-    'start': _start,
-    'count': 10
-  };
-
-
-  @override
-  onRefresh() {
-    _start = 0;
-    super.onRefresh();
-  }
-
-  @override
-  onLoading() {
-    _start = list.subjects.length;
-    super.onLoading();
-  }
-
-  @override
-  refreshCompleted(json) {
-    list =  MovieList.fromJson(json);
-  }
-
-  @override
-  loadComplete(json) {
-    final _list = MovieList.fromJson(json);
-    list.subjects.addAll(_list.subjects);
-  }
-
-  @override
-  bool get loadNoData => list.subjects.length >= list.total;
-
-}
-
-
 class MovieRecommendViewModel extends BaseViewModel {
 
   List<MovieGridItem> movies;
 
-  String id;
+  final String id;
 
   MovieRecommendViewModel(this.id) {
     onRefresh();
@@ -108,9 +39,6 @@ class MovieRecommendViewModel extends BaseViewModel {
 
   @override
   get data => {'id': id};
-
-  @override
-  String get api => Api.fetchMovie;
 
   @override
   String get extra => '/recommendations';
@@ -125,131 +53,54 @@ class MovieRecommendViewModel extends BaseViewModel {
 
 }
 
-class MovieCommentViewModel extends BaseViewModel {
+class MovieCommentViewModel extends BaseListViewModel<CommentList> {
 
-  CommentList list;
-
-  String id;
-  String path;
-
-  int _start = 0;
-
-  MovieCommentViewModel(this.id, this.path){
-    onRefresh();
-  }
+  MovieCommentViewModel(id):super(id: id);
 
   @override
-  bool get isEmpty => list.subjects.isEmpty;
+  int get start => 1;
 
   @override
-  String get api => Api.fetchMovie;
+  String get extra => '/interests';
 
   @override
-  String get extra => path;
+  int get count => 15;
 
   @override
-  get data => {
-    'id': id,
-    'start': _start,
-    'count': 15
-  };
-
-  @override
-  bool get loadNoData => list.subjects.length >= list.total;
-
-  @override
-  bool get refreshNoData {
-    if (list != null) {
-      return isEmpty;
-    }
-    return true;
-  }
-
-  @override
-  onRefresh() {
-    _start = 0;
-    super.onRefresh();
-  }
-
-  @override
-  onLoading() {
-    _start = list.subjects.length;
-    super.onLoading();
-  }
-
-  @override
-  refreshCompleted(json) {
-    list = CommentList.fromJson(json);
-  }
-
-  @override
-  loadComplete(json) {
-    final _list = CommentList.fromJson(json);
-    list.subjects.addAll(_list.subjects);
+  CommentList modelFromJson(json) {
+    return CommentList.fromJson(json);
   }
 
 }
 
-class MoviePhotoViewModel extends BaseViewModel {
-  //
-  // Comments comments;
-  //
-  // String id;
-  //
-  // int _start = 0;
-  //
-  // MoviePhotoViewModel(this.id){
-  //   onRefresh();
-  // }
-  //
-  // @override
-  // bool get isEmpty => comments.subjects.isEmpty;
-  //
-  // @override
-  // String get api => Api.fetchMovie;
-  //
-  // @override
-  // String get extra => path(RouterType.photos);
-  //
-  // @override
-  // get data => {
-  //   'id': id,
-  //   'start': _start,
-  //   'count': 10
-  // };
-  //
-  // @override
-  // bool get loadNoData => comments.subjects.length >= comments.total;
-  //
-  // @override
-  // bool get refreshNoData {
-  //   if (comments != null) {
-  //     return isEmpty;
-  //   }
-  //   return true;
-  // }
-  //
-  // @override
-  // onRefresh() {
-  //   _start = 0;
-  //   super.onRefresh();
-  // }
-  //
-  // @override
-  // onLoading() {
-  //   _start = comments.subjects.length;
-  //   super.onLoading();
-  // }
-  //
-  // @override
-  // refreshCompleted(json) {
-  //   comments = Comments.fromJson(json);
-  // }
-  //
-  // @override
-  // loadComplete(json) {
-  //   final _comments = Comments.fromJson(json);
-  //   comments.subjects.addAll(_comments.subjects);
-  // }
+
+class MovieReviewViewModel extends MovieCommentViewModel {
+
+  MovieReviewViewModel(id) : super(id);
+
+  @override
+  String get extra => '/reviews';
+
+}
+
+class MoviePhotoViewModel extends BaseListViewModel<PhotoList> {
+
+  PhotoList list;
+
+  MoviePhotoViewModel(id) : super(id: id);
+
+  @override
+  String get extra => '/photos';
+
+  @override
+  int get start => 1;
+
+  @override
+  int get count => 20;
+
+  @override
+  PhotoList modelFromJson(json) {
+    return PhotoList.fromJson(json);
+  }
 
 }

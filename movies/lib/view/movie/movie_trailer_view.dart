@@ -32,7 +32,7 @@ class MovieTrailerView extends StatelessWidget {
                   child: Container(
                     child: GestureDetector(
                       onTap: () {
-                        PlayerView.open(context, trailer.video, title: '$title${(LocalizationManger.i18n(context, 'movie.trailers'))}}');
+                        PlayerView.open(context, trailer.video, title: '$title(${LocalizationManger.i18n(context, 'movie.trailers')})');
                       },
                       child: Stack(
                         alignment: Alignment.center,

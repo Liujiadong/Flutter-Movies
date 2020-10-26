@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-
 import 'constant.dart';
 
 class NetworkManager {
@@ -23,14 +22,17 @@ class NetworkManager {
     param.addAll(data ?? {});
 
     if (path == Api.fetchMovie) {
-      path += '/${param["id"]}';
+      path += "/${param['id']}";
     }
+
+    param.remove('id');
 
     path += extra ?? '';
 
     return await _dio.get(path, queryParameters: param);
 
   }
+
 
 
 }

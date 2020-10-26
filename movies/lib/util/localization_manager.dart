@@ -48,13 +48,12 @@ class LocalizationManger {
   static final fallbackFile = languageFile(language);
   static final forcedLocale = languageLocal(language);
 
-  static setup() async{
+  static setup() {
     delegate = FlutterI18nDelegate(
         useCountryCode: false,
         fallbackFile: fallbackFile,
         path: 'assets/i18n',
         forcedLocale: forcedLocale);
-    await delegate.load(null);
   }
 
   static String i18n(BuildContext context, String key) {

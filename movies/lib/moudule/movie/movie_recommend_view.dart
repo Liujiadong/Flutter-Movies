@@ -1,17 +1,16 @@
 import 'package:movies/model/movie_model.dart';
-import 'package:movies/util/constant.dart';
+
 import 'package:movies/util/localization_manager.dart';
 
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/util/util.dart';
-import 'package:movies/view/base_view.dart';
+
 import 'package:movies/view/error_view.dart';
-import 'package:movies/view/grid_item_view.dart';
+import 'package:movies/view/item/grid_item_view.dart';
 import 'package:movies/view/provider_view.dart';
 import 'package:movies/view_model/movie_view_model.dart';
 import 'package:movies/view_model/base_view_model.dart';
 import 'package:flutter/material.dart';
-
 import '../../view/refresh_view.dart';
 
 class MovieRecommendView extends StatelessWidget {

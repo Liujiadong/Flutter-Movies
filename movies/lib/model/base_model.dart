@@ -1,4 +1,7 @@
 
+import 'package:movies/model/movie_model.dart';
+import 'package:movies/model/photo_model.dart';
+
 class BaseList {
 
   num count, start, total;
@@ -86,8 +89,20 @@ class BaseColor {
 }
 
 class GalleryItem {
-  String id, url;
-  GalleryItem(this.id, this.url);
+
+  String id, url, title, subTitle;
+
+  GalleryItem.formStaff(json) {
+    id = 'staff_${json['id']}';
+    url = json['cover_url'];
+    title = json['name'];
+    subTitle = json['title'];
+  }
+
+  GalleryItem.formPhoto(PhotoListItem item) {
+    id = 'photo_${item.id}';
+    url = item.l.url;
+  }
 }
 
 

@@ -1,19 +1,38 @@
-import 'package:movies/util/router_manager.dart';
-import 'movie_comment_view.dart';
+import 'package:movies/model/comment_model.dart';
+import 'package:movies/view/base_view.dart';
+import 'package:movies/view/item/comment_item_view.dart';
+import 'package:movies/view/webpage_view.dart';
+import 'package:movies/view_model/movie_view_model.dart';
+import 'package:flutter/material.dart';
 
 
-class MovieReviewView extends MovieCommentView {
+class MovieReviewView extends BaseRefreshView<MovieReviewViewModel> {
 
-  MovieReviewView(String id, String title) : super(id, title);
+  MovieReviewView(id)
+      : super(
+      title: 'movie.review',
+      viewModel: MovieReviewViewModel(id),
+      enablePullUp: true);
 
   @override
-  String get extra {
-    return  path(RouterType.reviews);
-  }
+  Widget get bodyView {
 
-  @override
-  String get titleKey {
-    return 'movie.review';
+    final list = viewModel.list;
+
+    return ListView.builder(
+        itemCount: list.subjects.length ?? 0,
+        itemBuilder: (context, index) {
+
+          CommentListItem item =  list.subjects[index];
+
+          return CommentItemView(item, (){
+            if (item.url.isNotEmpty) {
+              WebpageView.open(context, item.url, title: title);
+            }
+          });
+
+
+        });
   }
 
 }

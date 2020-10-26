@@ -1,64 +1,37 @@
 import 'package:movies/model/rank_model.dart';
-import 'package:movies/util/localization_manager.dart';
 import 'package:movies/util/router_manager.dart';
 import 'package:movies/view/base_view.dart';
-import 'package:movies/view/provider_view.dart';
-import 'package:movies/view/rank_item_view.dart';
-import 'package:movies/view/refresh_view.dart';
+import 'package:movies/view/item/rank_item_view.dart';
 import 'package:movies/view_model/rank_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 
-class RankView extends StatelessWidget {
 
-  final _refreshController = RefreshController();
-  final _scaffoldkey = GlobalKey<ScaffoldState>();
+class RankView extends BaseRefreshView<RankViewModel> {
+
+  RankView() : super(
+      title: 'tab.rank',
+      viewModel: RankViewModel()
+  );
 
   @override
-  Widget build(BuildContext context) {
-    return ProviderView<RankViewModel>(
-        viewModel: RankViewModel(),
-        builder: (context, model, _) {
-          return Scaffold(
-            key: _scaffoldkey,
-            appBar: AppBar(
-                title: Text(LocalizationManger.i18n(context, 'tab.rank'))),
-            body: SmartRefresher(
-              controller: _refreshController,
-              header: RefreshHeader(),
-              enablePullDown: !model.refreshNoData,
-              onRefresh: model.onRefresh,
-              child: _body(context, model),
-            ),
-          );
-        });
-  }
+  Widget get bodyView {
 
-  Widget _body(BuildContext context, RankViewModel model) {
+    final list = viewModel.list;
 
-    return baseRefreshView(
-        model: model,
-        scaffoldkey: _scaffoldkey,
-        refreshController: _refreshController,
-        builder: () {
+    return ListView.builder(
+        itemCount: list.subjects.length ?? 0,
+        itemBuilder: (context, index) {
 
-          final list = model.list;
+          RankListItem item = list.subjects[index];
 
-          return ListView.builder(
-              itemCount: list.subjects.length ?? 0,
-              itemBuilder: (context, index) {
-
-                RankListItem item = list.subjects[index];
-
-                return RankItemView(item, () {
-                  RouterManager.toMovie(context, RouterType.rank_list,
-                      item.id, item.name);
-                });
-
-              });
+          return RankItemView(item, () {
+            RouterManager.toMovie(context, RouterType.rank_list,
+                item.id, item.name);
+          });
 
         });
   }
+
 
 }

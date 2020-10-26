@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'constant.dart';
 
 showSnackBar(GlobalKey<ScaffoldState> key, String text) {

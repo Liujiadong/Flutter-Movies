@@ -54,12 +54,6 @@ class _PlayerViewState extends State<PlayerView> {
                       child: Icon(Icons.close, color: Colors.white, size: 30),
                       onPressed: () => RouterManager.pop(context),
                     ),
-                    FlatButton(
-                      child: Icon(Icons.share, color: Colors.white, size: 30),
-                      onPressed: () {
-                        Share.share('${widget.title}\n${widget.url}');
-                      },
-                    )
               ],
             ),
             Expanded(

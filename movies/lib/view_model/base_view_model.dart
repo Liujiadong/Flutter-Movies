@@ -1,16 +1,83 @@
+import 'package:movies/model/base_model.dart';
 import 'package:movies/util/constant.dart';
 import 'package:dio/dio.dart';
 import 'package:movies/util/network_manager.dart';
 import 'package:flutter/cupertino.dart';
 
 
-class BaseViewModel extends ViewStateViewModel {
+class BaseListViewModel<T extends BaseList> extends BaseViewModel {
+
+  T list;
+
+  final String id;
+  int start = 0;
+  int count = 10;
+
+  int _start;
+
+  BaseListViewModel({this.id = ''}){
+    onRefresh();
+  }
+
+  @override
+  get data => {
+    'start': _start,
+    'count': count,
+    'id': id
+  };
+
+  @override
+  bool get refreshNoData {
+    if (list != null) {
+      return isEmpty;
+    }
+    return true;
+  }
+
+  @override
+  bool get isEmpty => list.subjects.isEmpty;
+
+  @override
+  bool get loadNoData => list.subjects.length >= list.total;
+
+  @override
+  onRefresh() {
+    _start = start;
+    super.onRefresh();
+  }
+
+  @override
+  onLoading() {
+    _start = list.subjects.length;
+    super.onLoading();
+  }
+
+  T modelFromJson(json) {
+    return BaseList.fromJson(json) as T;
+  }
+
+  @override
+  refreshCompleted(json) {
+    list =  modelFromJson(json);
+  }
+
+  @override
+  loadComplete(json) {
+    final _list = modelFromJson(json);
+    list.subjects.addAll(_list.subjects);
+  }
+
+
+}
+
+
+class BaseViewModel extends StateViewModel {
 
    bool get isEmpty { return false; }
    bool get refreshNoData { return false; }
    bool get loadNoData { return false; }
 
-   String get api { return Api.fetchMovieList; }
+   String get api { return Api.fetchMovie; }
    String get extra { return ''; }
    Map<String, dynamic> get data { return {}; }
 
@@ -40,6 +107,7 @@ class BaseViewModel extends ViewStateViewModel {
        });
      }
    }
+
 
    refreshCompleted(json) {
 
@@ -71,7 +139,7 @@ enum ViewState {
   empty
 }
 
-class ViewStateViewModel extends ChangeNotifier {
+class StateViewModel extends ChangeNotifier {
   ViewState _viewState = ViewState.idle;
 
   String _message;

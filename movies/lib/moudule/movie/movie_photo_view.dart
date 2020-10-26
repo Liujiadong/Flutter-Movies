@@ -1,61 +1,47 @@
-import 'package:movies/util/localization_manager.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/view/refresh_view.dart';
-import 'package:pull_to_refresh/pull_to_refresh.dart';
-
-class MoviePhotoView extends StatelessWidget {
-
-  final String id, title;
+import 'package:movies/view/base_view.dart';
+import 'package:movies/view/gallery_view.dart';
+import 'package:movies/view_model/movie_view_model.dart';
 
 
-  MoviePhotoView(this.id, this.title);
+class MoviePhotoView extends BaseRefreshView<MoviePhotoViewModel> {
 
-  final _refreshController = RefreshController();
-  final _scaffoldkey = GlobalKey<ScaffoldState>();
+
+  MoviePhotoView(id)
+      : super(
+      title: 'movie.photos',
+      viewModel: MoviePhotoViewModel(id),
+      enablePullUp: true);
+
+
 
   @override
-  Widget build(BuildContext context) {
+  Widget get bodyView {
 
-    return Scaffold(
-        key: _scaffoldkey,
-        appBar: AppBar(title: Text(LocalizationManger.i18n(context, 'movie.photos'))),
-        body: SmartRefresher(
-          controller: _refreshController,
-          header: RefreshHeader(),
-          footer: RefreshFooter(),
-          enablePullUp: false,
-          enablePullDown: false,
-          // onRefresh: model.onRefresh,
-          // onLoading: model.onLoading,
-          child: _body(context),
-        )
-    );
-
-
-  }
-
-
-  _body(BuildContext context) {
-
+    final list = viewModel.list;
 
     return StaggeredGridView.countBuilder(
-      crossAxisCount: 3,
-      itemCount: 8,
-      itemBuilder: (BuildContext context, int index) => new Container(
-          color: Colors.green,
-          child: new Center(
-            child: new CircleAvatar(
-              backgroundColor: Colors.white,
-              child: new Text('$index'),
-            ),
-          )),
-      staggeredTileBuilder: (index) {
-        return StaggeredTile.fit(1);
-      },
-      mainAxisSpacing: 0.5,
-      crossAxisSpacing: 0.5,
-    );
-  }
+      crossAxisCount: 4,
+      itemCount: list.subjects.length ?? 0,
+      itemBuilder: (BuildContext context, int index) {
 
+        final item = list.subjects[index];
+
+        return GestureDetector(
+          onTap: () {
+            GalleryView.open(context, list.items, index);
+          },
+          child: CachedNetworkImage(imageUrl: item.s.url, fit: BoxFit.cover),
+        );
+      },
+      staggeredTileBuilder: (index) {
+        return StaggeredTile.fit(2);
+      },
+      // mainAxisSpacing: 0.5,
+      // crossAxisSpacing: 0.5,
+    );
+
+  }
 }

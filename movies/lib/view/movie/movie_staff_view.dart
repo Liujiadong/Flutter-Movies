@@ -8,25 +8,20 @@ import '../gallery_view.dart';
 
 class MovieStaffView extends StatelessWidget {
 
-  final List<MovieStaff> staffs;
+
+  final List<GalleryItem> galleryItems;
 
 
-  List<GalleryItem> get galleryItems {
-    return staffs.map((v) {
-      return GalleryItem('staff_${v.id}', v.avatar);
-    }).toList();
-  }
-
-  MovieStaffView(this.staffs);
+  MovieStaffView(this.galleryItems);
 
   @override
   Widget build(BuildContext context) {
 
-    final _staffs = staffs.where((staff) {
-      return staff.avatar != null;
+    final items = galleryItems.where((item) {
+      return item.url != null;
     }).toList();
 
-    if (_staffs.isNotEmpty) {
+    if (items.isNotEmpty) {
       return Container(
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 15),
           child: Column(
@@ -41,9 +36,21 @@ class MovieStaffView extends StatelessWidget {
                     crossAxisCount: 1,
                     childAspectRatio: 3 / 2,
                     mainAxisSpacing: 10,
-                    children: _staffs
-                        .map((staff) { return _itemView(context ,staff);})
-                        .toList(),
+                    children: List.generate(items.length, (index) {
+
+                      final item = items[index];
+
+                      return Container(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            _imageView(context, item, items),
+                            Text(item.title, style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
+                            Text(LocalizationManger.i18n(context, item.subTitle), style: TextStyle(fontSize: 9, color: Colors.white70))
+                          ],
+                        ),
+                      );
+                    })
                   )
               )
             ],
@@ -51,25 +58,11 @@ class MovieStaffView extends StatelessWidget {
     }
     return SizedBox();
 
-
   }
 
-  Widget _itemView(BuildContext context,MovieStaff staff) {
-    return Container(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _imageView(context,staff),
-          Text(staff.name, style: TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold), overflow: TextOverflow.ellipsis,),
-          Text(LocalizationManger.i18n(context, staff.title), style: TextStyle(fontSize: 9, color: Colors.white70))
-        ],
-      ),
-    );
-  }
+  Widget _imageView(BuildContext context, GalleryItem item, List<GalleryItem> items) {
 
-  Widget _imageView(BuildContext context, MovieStaff staff) {
-
-    final index = staffs.indexOf(staff);
+    final index = items.indexOf(item);
 
     return
       Container(
@@ -77,9 +70,9 @@ class MovieStaffView extends StatelessWidget {
         width: 100,
         child: GestureDetector(
           onTap: () {
-            GalleryView.open(context, galleryItems, index);
+            GalleryView.open(context, items, index);
           },
-          child: CachedNetworkImage(imageUrl: staff.avatar, fit: BoxFit.cover)
+          child: CachedNetworkImage(imageUrl: item.url, fit: BoxFit.cover)
         ),
       );
   }

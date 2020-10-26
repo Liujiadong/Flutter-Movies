@@ -5,7 +5,8 @@ import 'package:movies/view/provider_view.dart';
 
 import 'package:movies/view_model/base_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:movies/view_model/home_view_model.dart';
+import 'package:movies/view_model/language_view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:movies/view/refresh_view.dart';
@@ -37,8 +38,13 @@ class BaseRefreshView<T extends BaseViewModel> extends StatelessWidget {
 
   final T viewModel;
   final String title;
+  final bool enablePullUp;
 
-  BaseRefreshView(this.title, this.viewModel);
+  BaseRefreshView({
+    this.title,
+    this.viewModel,
+    this.enablePullUp = false
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +54,20 @@ class BaseRefreshView<T extends BaseViewModel> extends StatelessWidget {
           return Scaffold(
             key: _scaffoldkey,
             appBar: AppBar(
-                title: Text(LocalizationManger.i18n(context, title))
+                title: Consumer<LanguageViewModel>(
+                  builder: (context, _, child) {
+                    return Text(LocalizationManger.i18n(context, title));
+                  }
+                )
             ),
             body: SmartRefresher(
               controller: _refreshController,
               header: RefreshHeader(),
+              footer: enablePullUp ? RefreshFooter():null,
               enablePullDown: !model.refreshNoData,
+              enablePullUp: enablePullUp ? !model.refreshNoData : false,
               onRefresh: model.onRefresh,
+              onLoading: enablePullUp ? model.onLoading : null,
               child: _refreshChild(context, viewModel),
             ),
           );

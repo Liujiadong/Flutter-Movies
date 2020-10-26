@@ -54,11 +54,11 @@ class MovieRatingView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   _textView(
-                      '上映：${movie.released ? movie.pubdate : LocalizationManger.i18n(context, 'movie.unreleased')}'),
-                  _textView('类型：${movie.genres}'),
-                  _textView('片长：${movie.durations}'),
-                  _textView('地区：${movie.countries}'),
-                  _textView('语言：${movie.languages}'),
+                      '${LocalizationManger.i18n(context, 'movie.release')}：${movie.released ? movie.pubdate : LocalizationManger.i18n(context, 'movie.unrelease')}'),
+                  _textView('${LocalizationManger.i18n(context, 'movie.genre')}：${movie.genres}'),
+                  _textView('${LocalizationManger.i18n(context, 'movie.duration')}：${movie.durations}'),
+                  _textView('${LocalizationManger.i18n(context, 'movie.region')}：${movie.countries}'),
+                  _textView('${LocalizationManger.i18n(context, 'movie.language')}：${movie.languages}'),
                 ],
               ))
         ],

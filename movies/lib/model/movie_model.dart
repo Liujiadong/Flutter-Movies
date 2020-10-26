@@ -19,8 +19,8 @@ class Movie extends BaseMovie {
 
   BaseColor color;
 
-  List<MovieStaff> actors;
-  List<MovieStaff> directors;
+  List<GalleryItem> actors;
+  List<GalleryItem> directors;
 
   MovieTrailer trailer;
 
@@ -33,9 +33,9 @@ class Movie extends BaseMovie {
   String genres;
   String url;
 
-  List<MovieStaff> get staffs {
-    actors.forEach((v) => v.title = '');
-    directors.forEach((v) => v.title = 'movie.director');
+  List<GalleryItem> get staffs {
+    actors.forEach((v) => v.subTitle = '');
+    directors.forEach((v) => v.subTitle = 'movie.director');
     return directors + actors;
   }
 
@@ -43,8 +43,8 @@ class Movie extends BaseMovie {
 
 
     cover = json['pic']['normal'].toString().replaceAll('webp', 'jpg');
-    actors = (json['actors'] as List).map((v) => MovieStaff.fromJson(v)).toList();
-    directors = (json['directors'] as List).map((v) => MovieStaff.fromJson(v)).toList();
+    actors = (json['actors'] as List).map((v) => GalleryItem.formStaff(v)).toList();
+    directors = (json['directors'] as List).map((v) => GalleryItem.formStaff(v)).toList();
     color = BaseColor.fromJson(json['color_scheme']);
     intro = json['intro'];
     url = json['info_url'];
@@ -133,15 +133,6 @@ class MovieGridItem extends BaseMovie {
 
 
 
-
-class MovieStaff extends BaseMovie {
-
-  String avatar;
-
-  MovieStaff.fromJson(json) : super.fromJson(json) {
-    avatar = json['cover_url'];
-  }
-}
 
 class MovieTrailer extends BaseMovie {
 

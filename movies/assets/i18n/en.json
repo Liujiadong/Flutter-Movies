@@ -17,7 +17,7 @@
     "seen": " Seen",
     "scored": " Scored",
     "none_rating": "None",
-    "unreleased": "Unreleased",
+    "unrelease": "Unrelease",
     "review": "Review",
     "share": "Share",
     "summary": "Summary",
@@ -26,9 +26,13 @@
     "trailers": "Trailers",
     "comments": "Comments",
     "comments_all": "All",
-    "loading":"Loading...",
     "recommended": "Recommended",
-    "photos": "Photos"
+    "photos": "Photos",
+    "release": "Release",
+    "genre": "Genre",
+    "duration": "Duration",
+    "region": "Region",
+    "language": "Language"
   },
   "refresh": {
     "empty": "No Data",

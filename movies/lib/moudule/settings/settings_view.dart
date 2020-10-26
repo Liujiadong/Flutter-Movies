@@ -16,8 +16,6 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    print('Scaffold');
-
     return Consumer<LanguageViewModel>(builder: (context, viewModel, _) {
       return Scaffold(
         appBar: AppBar(

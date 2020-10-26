@@ -1,8 +1,10 @@
 import 'package:dio/dio.dart';
 
 import 'package:movies/model/movie_model.dart';
+import 'package:movies/moudule/rank/rank_list_view.dart';
 import 'package:movies/util/constant.dart';
 import 'package:movies/util/network_manager.dart';
+import 'package:movies/view_model/rank_view_model.dart';
 
 
 import 'base_view_model.dart';
@@ -17,6 +19,7 @@ class HomeViewModel extends BaseViewModel {
 
   @override
   onRefresh() {
+
     setViewState(ViewState.onRefresh);
     Future.wait([
       _fetch('movie_showing'),
