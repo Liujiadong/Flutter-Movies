@@ -1,4 +1,5 @@
 import 'package:movies/model/comment_model.dart';
+import 'package:movies/util/localization_manager.dart';
 import 'package:movies/view/base_view.dart';
 import 'package:movies/view/item/comment_item_view.dart';
 import 'package:movies/view_model/movie_view_model.dart';
@@ -26,12 +27,7 @@ class MovieCommentView extends BaseRefreshView<MovieCommentViewModel> {
         itemBuilder: (context, index) {
 
           CommentListItem item =  list.subjects[index];
-
-          return CommentItemView(item, (){
-            if (item.url.isNotEmpty) {
-              WebpageView.open(context, item.url, title: title);
-            }
-          });
+          return CommentItemView(item);
 
         });
   }

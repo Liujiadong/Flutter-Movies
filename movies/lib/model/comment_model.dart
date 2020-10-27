@@ -24,7 +24,7 @@ class CommentListItem extends BaseMovie {
   CommentListItem.fromJson(json) : super.fromJson(json) {
 
     useful_count = json['useful_count'] ?? json['vote_count'];
-    url = json['sharing_url'];
+    url = json['url'];
     abstract = json['abstract'] ?? json['comment'];
     create_time = json['create_time'];
     user = User.fromJson(json['user']);

@@ -9,7 +9,7 @@ class CommentItemView extends StatelessWidget {
   final CommentListItem item;
   final VoidCallback onTap;
 
-  CommentItemView(this.item, this.onTap);
+  CommentItemView(this.item, {this.onTap});
 
   @override
   Widget build(BuildContext context) {
